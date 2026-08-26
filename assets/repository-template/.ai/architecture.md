@@ -2,6 +2,9 @@
 
 > 记录稳定的架构事实、边界和依赖方向。详细决策放入 `decisions.md`。
 
+- 当前配置：见 `.ai/profile.md`
+- 配置原则：架构风格描述约束，不代表自动迁移；本文件记录项目的真实实现。
+
 ## 架构概览
 
 `{{DESCRIBE_THE_SYSTEM_IN_3_TO_8_SENTENCES}}`

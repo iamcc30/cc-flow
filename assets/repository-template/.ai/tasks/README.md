@@ -12,6 +12,8 @@ YYYY-MM-DD-short-slug
 ./scripts/ai-task-start.sh short-slug "任务标题"
 ```
 
+脚本会把 `.ai/profile.md` 当前的 `delivery_level` 和 `architecture_style` 写入 `task.md` 和 `plan.md`，作为任务配置快照。后续项目配置变化不会悄悄改变已有任务的完成标准。
+
 任务状态：
 
 ```text

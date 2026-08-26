@@ -5,6 +5,6 @@ alwaysApply: true
 
 # AI Development Protocol
 
-Before editing, read `AGENTS.md`, `.ai/project.md`, `.ai/architecture.md`, `.ai/business.md`, `.ai/conventions.md`, and `.ai/progress.md`.
+Before editing, read `AGENTS.md`, `.ai/project.md`, `.ai/profile.md`, `.ai/architecture.md`, `.ai/business.md`, `.ai/conventions.md`, and `.ai/progress.md`.
 
 Use an active task under `.ai/tasks/` for non-simple work. Follow the stage gates in `.ai/conventions.md`, keep changes within scope, record actual verification commands, update affected documentation, and never claim unrun tests passed.

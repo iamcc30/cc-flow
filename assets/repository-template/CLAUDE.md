@@ -5,6 +5,7 @@ Read and follow `AGENTS.md` and `.ai/conventions.md` before making changes.
 The canonical project context is stored in:
 
 - `.ai/project.md`
+- `.ai/profile.md`
 - `.ai/architecture.md`
 - `.ai/business.md`
 - `.ai/progress.md`

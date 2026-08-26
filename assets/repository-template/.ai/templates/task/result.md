@@ -21,6 +21,12 @@
 - 局部检查：`{{COMMAND_OR_CHECK_OR_NONE}}`
 - 结果：`{{RESULT_OR_NA}}`
 
+## 配置符合性
+
+- 交付级别：`{{DELIVERY_LEVEL_COMPLIANCE}}`
+- 架构风格：`{{ARCHITECTURE_STYLE_COMPLIANCE}}`
+- 偏差或不适用项：`{{NONE_OR_EXPLANATION}}`
+
 ## 文档同步
 
 - [ ] `.ai/project.md`：`{{UPDATED_OR_NOT_NEEDED_WITH_REASON}}`

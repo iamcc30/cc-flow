@@ -22,12 +22,28 @@ check_project() {
     error "missing or empty repository entry file: AGENTS.md"
   fi
 
-  for file in project.md architecture.md business.md conventions.md progress.md decisions.md; do
+  for file in profile.md project.md architecture.md business.md conventions.md progress.md decisions.md; do
     path="$repo_root/.ai/$file"
     if [ ! -s "$path" ]; then
       error "missing or empty project file: .ai/$file"
     fi
   done
+
+  profile_path="$repo_root/.ai/profile.md"
+  if [ -s "$profile_path" ]; then
+    project_delivery_level=$(field_value delivery_level "$profile_path")
+    project_architecture_style=$(field_value architecture_style "$profile_path")
+
+    case "$project_delivery_level" in
+      prototype|standard|enterprise) ;;
+      *) error ".ai/profile.md has invalid delivery_level: ${project_delivery_level:-<empty>}" ;;
+    esac
+
+    case "$project_architecture_style" in
+      existing|layered|clean|hexagonal|ddd) ;;
+      *) error ".ai/profile.md has invalid architecture_style: ${project_architecture_style:-<empty>}" ;;
+    esac
+  fi
 
   if grep -R -n '{{[A-Z0-9_ /.-]*}}' \
     "$repo_root/.ai/project.md" \
@@ -74,16 +90,31 @@ check_task() {
   [ -s "$task_dir/task.md" ] || return
 
   protocol_version=$(field_value protocol_version "$task_dir/task.md")
+  task_delivery_level=$(field_value delivery_level "$task_dir/task.md")
+  task_architecture_style=$(field_value architecture_style "$task_dir/task.md")
   status=$(field_value status "$task_dir/task.md")
   approval=$(field_value approval "$task_dir/task.md")
 
+  test_protocol=0
   case "$protocol_version" in
     ""|1) ;;
-    2)
-      [ -s "$task_dir/test.md" ] || error "$label/test.md is missing or empty for protocol_version 2"
+    2|3)
+      test_protocol=1
+      [ -s "$task_dir/test.md" ] || error "$label/test.md is missing or empty for protocol_version $protocol_version"
       ;;
     *) error "$label/task.md has unsupported protocol_version: $protocol_version" ;;
   esac
+
+  if [ "$protocol_version" = "3" ]; then
+    case "$task_delivery_level" in
+      prototype|standard|enterprise) ;;
+      *) error "$label/task.md has invalid delivery_level: ${task_delivery_level:-<empty>}" ;;
+    esac
+    case "$task_architecture_style" in
+      existing|layered|clean|hexagonal|ddd) ;;
+      *) error "$label/task.md has invalid architecture_style: ${task_architecture_style:-<empty>}" ;;
+    esac
+  fi
 
   case "$status" in
     DRAFT|PLANNED|APPROVED|IMPLEMENTING|TESTING|VERIFIED|DONE|CANCELLED) ;;
@@ -101,6 +132,9 @@ check_task() {
   fi
 
   if [ -s "$task_dir/plan.md" ]; then
+    if [ "$protocol_version" = "3" ]; then
+      require_heading "## 适用配置" "$task_dir/plan.md" "$label/plan.md"
+    fi
     require_heading "## 修改范围" "$task_dir/plan.md" "$label/plan.md"
     require_heading "## 影响分析" "$task_dir/plan.md" "$label/plan.md"
     require_heading "## 测试计划" "$task_dir/plan.md" "$label/plan.md"
@@ -108,7 +142,7 @@ check_task() {
     require_heading "## 回滚方案" "$task_dir/plan.md" "$label/plan.md"
   fi
 
-  if [ "$protocol_version" = "2" ] && [ -s "$task_dir/test.md" ]; then
+  if [ "$test_protocol" -eq 1 ] && [ -s "$task_dir/test.md" ]; then
     require_heading "## 测试范围与策略" "$task_dir/test.md" "$label/test.md"
     require_heading "## 验收标准覆盖" "$task_dir/test.md" "$label/test.md"
     require_heading "## 执行记录" "$task_dir/test.md" "$label/test.md"
@@ -116,7 +150,7 @@ check_task() {
     require_heading "## 测试结论与残余风险" "$task_dir/test.md" "$label/test.md"
   fi
 
-  if [ "$protocol_version" = "2" ] && { [ "$status" = "VERIFIED" ] || [ "$status" = "DONE" ]; }; then
+  if [ "$test_protocol" -eq 1 ] && { [ "$status" = "VERIFIED" ] || [ "$status" = "DONE" ]; }; then
     if [ ! -s "$task_dir/test.md" ] || ! grep -Eq 'test_status:[[:space:]]*`?passed`?' "$task_dir/test.md"; then
       error "$label cannot be $status unless test.md records test_status: passed"
     fi
@@ -126,7 +160,7 @@ check_task() {
     if grep -R -n '{{[^}][^}]*}}' "$task_dir"/*.md >/dev/null 2>&1; then
       error "$label is DONE but still contains template placeholders"
     fi
-    if [ "$protocol_version" != "2" ]; then
+    if [ "$test_protocol" -ne 1 ]; then
       grep -Eq 'test_status:[[:space:]]*`?passed`?' "$task_dir/result.md" || \
         error "$label is DONE but legacy result.md does not record test_status: passed"
     fi
@@ -138,7 +172,7 @@ check_task() {
     if grep -Eq '^- \[ \]' "$task_dir/result.md"; then
       error "$label is DONE but result.md has unchecked completion items"
     fi
-    if [ "$protocol_version" = "2" ] && grep -Eq '^- \[ \]' "$task_dir/test.md"; then
+    if [ "$test_protocol" -eq 1 ] && grep -Eq '^- \[ \]' "$task_dir/test.md"; then
       error "$label is DONE but test.md has unchecked completion items"
     fi
   elif grep -R -n '{{[^}][^}]*}}' "$task_dir"/*.md >/dev/null 2>&1; then

@@ -1,5 +1,12 @@
 # 实施计划
 
+## 适用配置
+
+- delivery_level: `{{DELIVERY_LEVEL}}`
+- architecture_style: `{{ARCHITECTURE_STYLE}}`
+- 本任务额外门槛：`{{PROFILE_SPECIFIC_GATES_OR_NONE}}`
+- 避免过度设计：`{{HOW_THE_SOLUTION_STAYS_PROPORTIONATE}}`
+
 ## 目标理解
 
 `{{RESTATED_GOAL_AND_NON_GOALS}}`

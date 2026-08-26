@@ -1,7 +1,9 @@
 ---
 id: "{{TASK_ID}}"
 title: "{{TASK_TITLE}}"
-protocol_version: 2
+protocol_version: 3
+delivery_level: "{{DELIVERY_LEVEL}}"
+architecture_style: "{{ARCHITECTURE_STYLE}}"
 status: DRAFT
 risk: "{{low / medium / high}}"
 owner: "{{OWNER}}"

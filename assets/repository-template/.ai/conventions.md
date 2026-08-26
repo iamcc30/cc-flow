@@ -19,6 +19,7 @@
 开始计划或修改前必须阅读：
 
 - `.ai/project.md`
+- `.ai/profile.md`
 - `.ai/architecture.md`
 - `.ai/business.md`
 - `.ai/progress.md`
@@ -27,7 +28,23 @@
 
 如果这些文件仍有影响当前任务的占位符或相互矛盾，先补齐事实或明确假设。
 
-## 3. 任务分级
+## 3. 配置档案
+
+每个任务必须遵守 `.ai/profile.md` 中的两个配置：
+
+- `delivery_level`：`prototype / standard / enterprise`
+- `architecture_style`：`existing / layered / clean / hexagonal / ddd`
+
+默认使用 `standard + existing`。配置应用原则：
+
+1. `prototype` 可以减少非必要抽象和文档，但不能取消安全、隐私、真实测试证据和高风险审批。
+2. `standard` 使用本文件的完整默认完成标准。
+3. `enterprise` 根据任务影响增加 SLO、弹性、安全、审计、可观测性、迁移、发布回滚和专项测试证据。
+4. `existing` 优先保持现有架构；其他架构风格只约束相关代码，不自动授权全项目重构。
+5. `ddd` 只用于复杂业务领域，必须围绕统一语言、限界上下文、聚合不变量和依赖方向，而不是机械增加目录和类型。
+6. AI 可以建议调整配置，但未经用户或项目负责人确认不得修改 `.ai/profile.md`。
+
+## 4. 任务分级
 
 ### 简单任务
 
@@ -53,7 +70,7 @@
 
 涉及生产数据、数据迁移、权限认证、支付、安全、隐私、不可逆操作、基础设施或大范围兼容性变化的任务属于高风险。高风险任务必须人工批准计划与回滚方案；不得用 `not_required` 绕过批准。
 
-## 4. 标准工作流
+## 5. 标准工作流
 
 ```text
 UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT → DONE
@@ -67,6 +84,7 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 
 在 `plan.md` 中写明：
 
+- 当前交付级别和架构风格，以及本任务适用的额外门槛
 - 现状与根因（缺陷任务必填）
 - 方案与关键取舍
 - 预计修改的文件/模块及原因
@@ -85,6 +103,7 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 - 引入新依赖前说明必要性、许可证/安全风险和替代方案。
 - 迁移、删除、覆盖、生产操作等破坏性动作必须再次核对精确目标与回滚方式。
 - 不读取、记录或输出与任务无关的密钥和敏感数据。
+- 遵守选定架构风格的依赖方向和边界；若现状冲突，记录冲突并单独规划迁移，不在普通任务中暗中重构。
 
 ### TEST
 
@@ -97,6 +116,8 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 3. 静态检查、格式检查、类型检查。
 4. 构建或打包。
 5. 安全、迁移、性能或兼容性专项检查（适用时）。
+
+`enterprise` 任务还应根据影响验证性能/容量、故障恢复、可观测性、接口契约、发布和回滚；不适用时在 `test.md` 写明原因。
 
 项目命令（首次配置时填写）：
 
@@ -137,7 +158,7 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 
 若判断无需更新，必须在任务 `result.md` 中说明原因。
 
-## 5. 完成定义（Definition of Done）
+## 6. 完成定义（Definition of Done）
 
 任务只有同时满足以下条件才能标记 `DONE`：
 
@@ -146,11 +167,12 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 - 必要测试、静态检查和构建已通过。
 - 没有未处理的关键评审问题。
 - 回归、安全、兼容和运维风险已有结论。
+- 已满足 `.ai/profile.md` 对当前交付级别和架构风格的适用要求。
 - 相关文档和 `.ai/progress.md` 已同步。
 - `task.md`、`plan.md`、`result.md`、`test.md`、`review.md` 无必填占位符。
 - 未完成项和已知限制已显式列出，没有被隐藏。
 
-## 6. 输出约定
+## 7. 输出约定
 
 计划阶段先给结论和影响范围；全部阶段完成后汇报：
 

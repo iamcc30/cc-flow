@@ -9,12 +9,26 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 ## 核心能力
 
 - 为现有或新项目初始化 `AGENTS.md` 和 `.ai/` 研发上下文。
+- 用两个字段选择交付级别和架构风格，默认不改变现有架构。
 - 从仓库证据生成项目、架构、业务和进度初稿，不凭空编造事实。
 - 为标准任务生成独立的 `task.md`、`plan.md`、`result.md`、`test.md` 和 `review.md`。
 - 强制 Plan、Implement、Test、Review 阶段门槛。
 - 只有独立测试记录为 `test_status: passed` 才能进入评审和完成状态。
 - 检查任务证据、文档同步、必填占位符和状态流转。
 - 同时提供 Codex、Claude Code、Cursor 和 GitHub Copilot 的仓库入口文件。
+
+## 轻量配置
+
+每个项目只需要维护 `.ai/profile.md` 中的两个字段：
+
+```yaml
+delivery_level: standard
+architecture_style: existing
+```
+
+交付级别可选 `prototype / standard / enterprise`，架构风格可选 `existing / layered / clean / hexagonal / ddd`。
+
+默认 `standard + existing` 适合大多数项目。选择 `enterprise` 会增加生产质量证据，选择 `ddd` 才会启用领域边界、聚合不变量、仓储和领域事件等要求。配置不会自动授权架构迁移或无关重构。
 
 ## 安装
 
@@ -59,6 +73,7 @@ $cc-flow 评审并检查当前任务
 ├── CLAUDE.md
 ├── .ai/
 │   ├── project.md
+│   ├── profile.md
 │   ├── architecture.md
 │   ├── business.md
 │   ├── conventions.md

@@ -22,6 +22,7 @@ esac
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 repo_root=$(CDPATH= cd -- "$script_dir/.." && pwd)
 template_dir="$repo_root/.ai/templates/task"
+profile_file="$repo_root/.ai/profile.md"
 today=$(date +%Y-%m-%d)
 task_id="$today-$slug"
 task_dir="$repo_root/.ai/tasks/$task_id"
@@ -30,6 +31,24 @@ task_dir="$repo_root/.ai/tasks/$task_id"
   echo "Error: task template not found: $template_dir" >&2
   exit 1
 }
+
+[ -s "$profile_file" ] || {
+  echo "Error: project profile not found: $profile_file" >&2
+  exit 1
+}
+
+delivery_level=$(sed -n 's/^delivery_level:[[:space:]]*//p' "$profile_file" | head -n 1 | tr -d '\"\r')
+architecture_style=$(sed -n 's/^architecture_style:[[:space:]]*//p' "$profile_file" | head -n 1 | tr -d '\"\r')
+
+case "$delivery_level" in
+  prototype|standard|enterprise) ;;
+  *) echo "Error: invalid delivery_level in .ai/profile.md: ${delivery_level:-<empty>}" >&2; exit 1 ;;
+esac
+
+case "$architecture_style" in
+  existing|layered|clean|hexagonal|ddd) ;;
+  *) echo "Error: invalid architecture_style in .ai/profile.md: ${architecture_style:-<empty>}" >&2; exit 1 ;;
+esac
 
 [ ! -e "$task_dir" ] || {
   echo "Error: task already exists: $task_dir" >&2
@@ -47,6 +66,8 @@ safe_id=$(escape_sed "$task_id")
 safe_title=$(escape_sed "$title")
 safe_owner=$(escape_sed "$owner")
 safe_date=$(escape_sed "$today")
+safe_delivery_level=$(escape_sed "$delivery_level")
+safe_architecture_style=$(escape_sed "$architecture_style")
 
 for file in "$task_dir"/*.md; do
   tmp="$file.tmp"
@@ -55,6 +76,8 @@ for file in "$task_dir"/*.md; do
     -e "s|{{TASK_TITLE}}|$safe_title|g" \
     -e "s|{{OWNER}}|$safe_owner|g" \
     -e "s|{{YYYY-MM-DD}}|$safe_date|g" \
+    -e "s|{{DELIVERY_LEVEL}}|$safe_delivery_level|g" \
+    -e "s|{{ARCHITECTURE_STYLE}}|$safe_architecture_style|g" \
     "$file" > "$tmp"
   mv "$tmp" "$file"
 done

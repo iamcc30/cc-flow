@@ -5,6 +5,7 @@
 ## 文件职责
 
 - `project.md`：产品目标、范围、用户、成功指标和非目标。
+- `profile.md`：选择交付级别和架构风格，默认 `standard + existing`。
 - `architecture.md`：系统边界、模块、依赖、数据、接口和部署约束。
 - `business.md`：统一术语、业务规则、状态机、权限和异常流程。
 - `conventions.md`：AI 必须遵守的研发协议与完成标准。

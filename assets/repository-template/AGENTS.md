@@ -7,11 +7,12 @@ These instructions apply to the entire repository. More specific `AGENTS.md` fil
 Before planning or editing, read:
 
 1. `.ai/project.md`
-2. `.ai/architecture.md`
-3. `.ai/business.md`
-4. `.ai/conventions.md`
-5. `.ai/progress.md`
-6. The active task under `.ai/tasks/`, when one exists
+2. `.ai/profile.md`
+3. `.ai/architecture.md`
+4. `.ai/business.md`
+5. `.ai/conventions.md`
+6. `.ai/progress.md`
+7. The active task under `.ai/tasks/`, when one exists
 
 ## Required workflow
 

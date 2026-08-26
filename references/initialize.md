@@ -28,6 +28,7 @@ For a repository already using this layout, do not reinstall blindly. Compare th
 
 Read the installed `AGENTS.md` and `.ai/conventions.md`. Fill project files from observable evidence:
 
+- `.ai/profile.md`: keep `standard + existing` by default. Recommend another delivery level or architecture style only when project evidence justifies it; obtain confirmation before changing the fields.
 - `.ai/project.md`: purpose, users, scope, constraints, and links.
 - `.ai/architecture.md`: modules, dependency directions, storage, external systems, quality attributes, and real commands.
 - `.ai/business.md`: only business terminology, rules, roles, states, and flows supported by code, tests, docs, or the user.
@@ -42,6 +43,8 @@ Search remaining placeholders. Separate them into:
 
 - Facts discoverable with more repository inspection.
 - Decisions only the user or project owner can make, such as business goals, non-goals, success metrics, compliance expectations, ownership, and risk tolerance.
+
+Profile selection belongs to the second category when it changes delivery obligations or architecture. Do not automatically select `enterprise` because a repository is large, or `ddd` because it contains domain-named classes.
 
 Ask concise questions only for the second category. Update the files after receiving answers.
 

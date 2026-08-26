@@ -62,4 +62,4 @@ chmod +x "$target/scripts/ai-task-start.sh" \
   "$target/scripts/ai-doc-sync.sh"
 
 echo "Installed CC Flow into: $target"
-echo "Next: derive project context, resolve remaining placeholders, and run ./scripts/ai-task-check.sh --project."
+echo "Next: review .ai/profile.md, derive project context, resolve remaining placeholders, and run ./scripts/ai-task-check.sh --project."

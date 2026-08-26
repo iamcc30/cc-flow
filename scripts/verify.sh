@@ -8,6 +8,7 @@ test -s "$skill_root/SKILL.md"
 test -s "$skill_root/agents/openai.yaml"
 test -s "$skill_root/assets/repository-template/.ai/prompts/test.md"
 test -s "$skill_root/assets/repository-template/.ai/templates/task/test.md"
+test -s "$skill_root/assets/repository-template/.ai/profile.md"
 
 sh -n "$skill_root/scripts/init-project.sh" \
   "$skill_root/assets/repository-template/scripts/ai-task-start.sh" \
@@ -23,7 +24,9 @@ cd "$qa_root/repository"
 task_dir=$(find .ai/tasks -mindepth 1 -maxdepth 1 -type d | head -n 1)
 
 test -s "$task_dir/test.md"
-grep -Eq '^protocol_version:[[:space:]]*2$' "$task_dir/task.md"
+grep -Eq '^protocol_version:[[:space:]]*3$' "$task_dir/task.md"
+grep -Eq '^delivery_level:[[:space:]]*"standard"$' "$task_dir/task.md"
+grep -Eq '^architecture_style:[[:space:]]*"existing"$' "$task_dir/task.md"
 ./scripts/ai-task-check.sh "$task_dir"
 
 echo "CC Flow verification passed."
