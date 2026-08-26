@@ -1,0 +1,4 @@
+interface:
+  display_name: "CC Flow"
+  short_description: "Standardize AI planning, implementation, testing, and review"
+  default_prompt: "使用 $cc-flow 初始化当前仓库，并按规范创建和执行下一个开发任务。"

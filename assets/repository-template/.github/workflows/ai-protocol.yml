@@ -1,0 +1,19 @@
+name: AI protocol check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  protocol:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check project context and task records
+        run: |
+          chmod +x scripts/ai-task-check.sh scripts/ai-doc-sync.sh
+          AI_PROTOCOL_STRICT=1 ./scripts/ai-task-check.sh --all
