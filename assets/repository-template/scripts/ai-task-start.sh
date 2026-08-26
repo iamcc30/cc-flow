@@ -11,6 +11,8 @@ usage() {
 slug=$1
 title=$2
 owner=${3:-unassigned}
+parent_task=${CC_FLOW_PARENT_TASK:-N/A}
+repository_role=${CC_FLOW_REPOSITORY_ROLE:-repository}
 
 case "$slug" in
   *[!a-z0-9-]*|'')
@@ -68,6 +70,8 @@ safe_owner=$(escape_sed "$owner")
 safe_date=$(escape_sed "$today")
 safe_delivery_level=$(escape_sed "$delivery_level")
 safe_architecture_style=$(escape_sed "$architecture_style")
+safe_parent_task=$(escape_sed "$parent_task")
+safe_repository_role=$(escape_sed "$repository_role")
 
 for file in "$task_dir"/*.md; do
   tmp="$file.tmp"
@@ -78,6 +82,8 @@ for file in "$task_dir"/*.md; do
     -e "s|{{YYYY-MM-DD}}|$safe_date|g" \
     -e "s|{{DELIVERY_LEVEL}}|$safe_delivery_level|g" \
     -e "s|{{ARCHITECTURE_STYLE}}|$safe_architecture_style|g" \
+    -e "s|{{PARENT_TASK_OR_NA}}|$safe_parent_task|g" \
+    -e "s|{{REPOSITORY_ROLE}}|$safe_repository_role|g" \
     "$file" > "$tmp"
   mv "$tmp" "$file"
 done

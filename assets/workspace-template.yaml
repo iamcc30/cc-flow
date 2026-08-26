@@ -1,0 +1,10 @@
+workspace_version: 1
+name: "{{WORKSPACE_NAME}}"
+coordinator: "{{COORDINATOR_REPOSITORY_KEY}}"
+
+# Paths are relative to the coordinator repository containing this file.
+# Add one entry per repository and remove these comments after configuration.
+repositories:
+  "{{REPOSITORY_KEY}}":
+    path: "{{RELATIVE_OR_ABSOLUTE_REPOSITORY_PATH}}"
+    role: "{{PRODUCT_HUB_BACKEND_WEB_MOBILE_OR_OTHER_ROLE}}"

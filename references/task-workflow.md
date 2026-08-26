@@ -2,6 +2,8 @@
 
 Use this procedure after the repository contains the CC Flow layout.
 
+If `.ai/workspace.yaml` applies, use [workspace-workflow.md](workspace-workflow.md) to resolve affected repositories and linked parent/child tasks before following this repository-local procedure.
+
 ## Create a task
 
 Resolve a lowercase hyphenated slug, a clear title, and the owner if known. Run from the repository root:

@@ -45,6 +45,30 @@ check_project() {
     esac
   fi
 
+  workspace_path="$repo_root/.ai/workspace.yaml"
+  if [ -e "$workspace_path" ]; then
+    if [ ! -s "$workspace_path" ]; then
+      error ".ai/workspace.yaml exists but is empty"
+    else
+      workspace_version=$(field_value workspace_version "$workspace_path")
+      workspace_name=$(field_value name "$workspace_path")
+      workspace_coordinator=$(field_value coordinator "$workspace_path")
+
+      [ "$workspace_version" = "1" ] || \
+        error ".ai/workspace.yaml has unsupported workspace_version: ${workspace_version:-<empty>}"
+      [ -n "$workspace_name" ] || error ".ai/workspace.yaml is missing name"
+      [ -n "$workspace_coordinator" ] || error ".ai/workspace.yaml is missing coordinator"
+      grep -Eq '^[[:space:]]+path:[[:space:]]*"?[^"[:space:]].*' "$workspace_path" || \
+        error ".ai/workspace.yaml has no repository path"
+      grep -Eq '^[[:space:]]+role:[[:space:]]*"?[^"[:space:]].*' "$workspace_path" || \
+        error ".ai/workspace.yaml has no repository role"
+
+      if grep -n '{{[^}][^}]*}}' "$workspace_path" >/dev/null 2>&1; then
+        warn "workspace configuration still contains template placeholders"
+      fi
+    fi
+  fi
+
   if grep -R -n '{{[A-Z0-9_ /.-]*}}' \
     "$repo_root/.ai/project.md" \
     "$repo_root/.ai/architecture.md" \

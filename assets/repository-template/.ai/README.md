@@ -14,6 +14,7 @@
 - `prompts/`：Plan、Implement、Test、Review 阶段的可复用提示模板。
 - `templates/`：任务材料的空白模板。
 - `tasks/`：实际任务记录，每个任务一个目录。
+- `workspace.yaml`（可选）：一个产品跨多个仓库时，记录协调仓库、仓库路径和职责；单仓库项目不需要。
 
 ## 维护原则
 

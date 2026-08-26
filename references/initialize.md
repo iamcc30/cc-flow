@@ -2,6 +2,8 @@
 
 Use this procedure when setting up the workflow, filling `{{...}}` context fields, or updating an existing installation.
 
+If one product spans multiple repositories, initialize each repository locally first, then read [workspace-workflow.md](workspace-workflow.md) and create the workspace configuration in the chosen coordinator repository.
+
 ## 1. Resolve and inspect the target
 
 Identify the repository root from the user's target or the current Git root. Before writing, inspect:

@@ -8,6 +8,8 @@ status: DRAFT
 risk: "{{low / medium / high}}"
 owner: "{{OWNER}}"
 created: "{{YYYY-MM-DD}}"
+parent_task: "{{PARENT_TASK_OR_NA}}"
+repository_role: "{{REPOSITORY_ROLE}}"
 approval: pending
 approver: "{{APPROVER_OR_NA}}"
 ---

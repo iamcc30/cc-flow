@@ -16,6 +16,7 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 - 只有独立测试记录为 `test_status: passed` 才能进入评审和完成状态。
 - 检查任务证据、文档同步、必填占位符和状态流转。
 - 同时提供 Codex、Claude Code、Cursor 和 GitHub Copilot 的仓库入口文件。
+- 可选工作区模式：一句自然语言需求自动路由到产品协调仓库和受影响的代码仓库。
 
 ## 轻量配置
 
@@ -63,7 +64,18 @@ $cc-flow 评审并检查当前任务
 给这个项目初始化 AI 研发规范。
 按完整研发流程执行这个需求。
 检查当前任务的测试证据和完成条件。
+增加 App 住户登记功能。
 ```
+
+## 多仓库工作区
+
+当前后端、Web、App 等代码分布在多个仓库时，先分别初始化 CC Flow，再在产品协调仓库执行一次：
+
+```text
+$cc-flow 初始化多仓库工作区，识别当前工作区中的产品、后端、Web 和 App 仓库。
+```
+
+CC Flow 会生成 `.ai/workspace.yaml`，记录稳定的仓库路径和职责。之后只需描述功能，例如“增加 App 住户登记功能”，CC Flow 会读取配置，创建协调仓库父任务和受影响仓库子任务，生成计划并按风险执行审批门槛。它不会因为一句简短需求而编造业务规则，或自动获得创建远程 Issue/PR、推送、发布和生产变更的权限。
 
 ## 项目中生成的结构
 
@@ -74,6 +86,7 @@ $cc-flow 评审并检查当前任务
 ├── .ai/
 │   ├── project.md
 │   ├── profile.md
+│   ├── workspace.yaml  # 多仓库项目可选
 │   ├── architecture.md
 │   ├── business.md
 │   ├── conventions.md
