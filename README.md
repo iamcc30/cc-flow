@@ -35,13 +35,26 @@ architecture_style: existing
 
 ## 安装
 
+### Codex 插件市场（推荐）
+
+适用于 Codex App、Windows、WSL、macOS 和 Linux：
+
+```bash
+codex plugin marketplace add iamcc30/cc-flow --ref main
+codex plugin add cc-flow@cc-flow
+```
+
+第一条命令添加 CC Flow 的 GitHub 市场，第二条命令安装其中的插件。完成后新建一个 Codex 任务，使插件提供的 Skill 进入新任务上下文。
+
+### 独立 Skill
+
 可以让 Codex 使用 Skill Installer 从本仓库安装：
 
 ```text
 $skill-installer 从 https://github.com/iamcc30/cc-flow 安装 cc-flow
 ```
 
-也可以手动克隆到个人 Skills 目录：
+也可以在 macOS、Linux 或 WSL 中手动克隆到个人 Skills 目录：
 
 ```bash
 git clone https://github.com/iamcc30/cc-flow.git "${CODEX_HOME:-$HOME/.codex}/skills/cc-flow"
@@ -123,6 +136,16 @@ Skill 包自身的 `scripts/` 是安装和自检工具；复制到业务仓库�
 - 旧版扁平任务目录仍可校验，升级时不会自动搬迁历史记录；新任务继续使用包含配置快照、跨仓库关联和独立 `test.md` 的协议版本 3。
 
 ## 开发与验证
+
+根目录是独立 Skill 的源码，`plugins/cc-flow/skills/cc-flow/` 是插件市场发布副本。修改 Skill 后先同步这五项，再运行验证：
+
+```bash
+rsync -a SKILL.md plugins/cc-flow/skills/cc-flow/SKILL.md
+rsync -a --delete agents/ plugins/cc-flow/skills/cc-flow/agents/
+rsync -a --delete assets/ plugins/cc-flow/skills/cc-flow/assets/
+rsync -a --delete references/ plugins/cc-flow/skills/cc-flow/references/
+rsync -a --delete scripts/ plugins/cc-flow/skills/cc-flow/scripts/
+```
 
 ```bash
 ./scripts/verify.sh

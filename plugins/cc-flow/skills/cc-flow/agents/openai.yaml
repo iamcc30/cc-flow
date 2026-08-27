@@ -1,0 +1,6 @@
+interface:
+  display_name: "CC Flow"
+  short_description: "Turn brief requests into verified development workflows"
+  default_prompt: "使用 $cc-flow 根据当前项目上下文规划并完成这个开发需求。"
+policy:
+  allow_implicit_invocation: true

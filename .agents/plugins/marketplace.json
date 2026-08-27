@@ -1,0 +1,20 @@
+{
+  "name": "cc-flow",
+  "interface": {
+    "displayName": "CC Flow"
+  },
+  "plugins": [
+    {
+      "name": "cc-flow",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cc-flow"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
