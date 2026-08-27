@@ -12,6 +12,7 @@
 - `decisions.md`：需要长期保留的架构或业务决策。
 - `progress.md`：当前阶段、已完成事项、风险和下一步。
 - `prompts/`：Plan、Implement、Test、Review 阶段的可复用提示模板。
+- `scripts/`：CC Flow 的项目内工作流工具，与业务仓库自己的脚本隔离。
 - `templates/`：任务材料的空白模板。
 - `tasks/`：实际任务记录，每个任务一个目录。
 - `workspace.yaml`（可选）：一个产品跨多个仓库时，记录协调仓库、仓库路径和职责；单仓库项目不需要。

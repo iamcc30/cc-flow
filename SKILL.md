@@ -35,4 +35,4 @@ Read only the references required by the current request. For a configured works
 - `assets/workspace-template.yaml` is the starting schema for optional multi-repository coordination.
 - `scripts/init-project.sh` installs the overlay without overwriting existing files by default.
 - `scripts/init-workspace.sh` creates a workspace configuration draft in an initialized coordinator repository without overwriting an existing configuration.
-- After installation, use the repository-local scripts under `scripts/`; they are versioned with the project and can evolve with it.
+- After installation, use the repository-local workflow scripts under `.ai/scripts/`; keeping them inside `.ai/` avoids mixing CC Flow helpers with product-owned scripts.

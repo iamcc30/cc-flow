@@ -22,7 +22,7 @@ case "$slug" in
 esac
 
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-repo_root=$(CDPATH= cd -- "$script_dir/.." && pwd)
+repo_root=$(CDPATH= cd -- "$script_dir/../.." && pwd)
 template_dir="$repo_root/.ai/templates/task"
 profile_file="$repo_root/.ai/profile.md"
 today=$(date +%Y-%m-%d)

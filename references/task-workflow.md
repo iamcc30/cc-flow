@@ -9,7 +9,7 @@ If `.ai/workspace.yaml` applies, use [workspace-workflow.md](workspace-workflow.
 Resolve a lowercase hyphenated slug, a clear title, and the owner if known. Run from the repository root:
 
 ```bash
-./scripts/ai-task-start.sh <slug> "<task title>" [owner]
+./.ai/scripts/ai-task-start.sh <slug> "<task title>" [owner]
 ```
 
 Complete `task.md` from the user's request and repository evidence. The creation script snapshots `.ai/profile.md` into the task. Do not invent acceptance criteria that materially change scope. Classify risk using `.ai/conventions.md`.
@@ -43,15 +43,15 @@ Record actionable findings in `review.md`. `BLOCKER` and `HIGH` findings must be
 For an active task:
 
 ```bash
-./scripts/ai-task-check.sh .ai/tasks/<task-directory>
-./scripts/ai-doc-sync.sh .ai/tasks/<task-directory>
+./.ai/scripts/ai-task-check.sh .ai/tasks/<task-directory>
+./.ai/scripts/ai-doc-sync.sh .ai/tasks/<task-directory>
 ```
 
 For the project and all tasks:
 
 ```bash
-./scripts/ai-task-check.sh --all
-AI_PROTOCOL_STRICT=1 ./scripts/ai-task-check.sh --all
+./.ai/scripts/ai-task-check.sh --all
+AI_PROTOCOL_STRICT=1 ./.ai/scripts/ai-task-check.sh --all
 ```
 
 Warnings are allowed while drafting. Strict mode must pass before reporting the workflow as complete. Explain any skipped checks or accepted residual risk rather than hiding them.

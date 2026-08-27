@@ -57,9 +57,9 @@ for relative_path in $file_list; do
   cp "$template_dir/$clean_path" "$destination"
 done
 
-chmod +x "$target/scripts/ai-task-start.sh" \
-  "$target/scripts/ai-task-check.sh" \
-  "$target/scripts/ai-doc-sync.sh"
+chmod +x "$target/.ai/scripts/ai-task-start.sh" \
+  "$target/.ai/scripts/ai-task-check.sh" \
+  "$target/.ai/scripts/ai-doc-sync.sh"
 
 echo "Installed CC Flow into: $target"
-echo "Next: review .ai/profile.md, derive project context, resolve remaining placeholders, and run ./scripts/ai-task-check.sh --project."
+echo "Next: review .ai/profile.md, derive project context, resolve remaining placeholders, and run ./.ai/scripts/ai-task-check.sh --project."

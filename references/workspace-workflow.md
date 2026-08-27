@@ -36,11 +36,11 @@ Create one parent task in the coordinator repository and one child task in each 
 
 ```bash
 CC_FLOW_REPOSITORY_ROLE=coordinator \
-  ./scripts/ai-task-start.sh <slug> "<product task title>" [owner]
+  ./.ai/scripts/ai-task-start.sh <slug> "<product task title>" [owner]
 
 CC_FLOW_PARENT_TASK=<parent-task-id> \
 CC_FLOW_REPOSITORY_ROLE=<workspace-repository-key> \
-  ./scripts/ai-task-start.sh <slug> "<repository task title>" [owner]
+  ./.ai/scripts/ai-task-start.sh <slug> "<repository task title>" [owner]
 ```
 
 Fill the parent task with product scope, cross-repository acceptance criteria, workstreams, dependencies, integration tests, compatibility, rollout, and overall completion conditions. Fill each child task only with that repository's responsibilities and link it to the parent. Do not duplicate detailed repository implementation plans in the parent task.

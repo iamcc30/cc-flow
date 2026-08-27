@@ -8,7 +8,7 @@ If one product spans multiple repositories, initialize each repository locally f
 
 Identify the repository root from the user's target or the current Git root. Before writing, inspect:
 
-- Existing `AGENTS.md`, `CLAUDE.md`, `.ai/`, `.cursor/`, `.github/`, and `scripts/` files that may conflict.
+- Existing `AGENTS.md`, `CLAUDE.md`, `.ai/`, `.cursor/`, and `.github/` files that may conflict.
 - Project documentation, manifests, source layout, tests, CI, deployment configuration, interfaces, and migrations.
 - The working tree so unrelated changes remain untouched.
 
@@ -25,6 +25,8 @@ Run the skill's initializer with the resolved repository root:
 The script performs a complete preflight and makes no changes if any target protocol file already exists. If conflicts exist, inspect and merge them deliberately. Do not use `--force` unless the user explicitly asks to replace those files after seeing the conflict scope.
 
 For a repository already using this layout, do not reinstall blindly. Compare the bundled template with the repository's customized files and update only the requested reusable mechanics while preserving project facts and local rules.
+
+When refreshing an older CC Flow installation that has `scripts/ai-task-*.sh` or `scripts/ai-doc-sync.sh`, install the current helpers under `.ai/scripts/` and update CC Flow references to the new path. Treat the root `scripts/` directory as project-owned: do not delete or overwrite legacy files automatically. Report any old helpers that remain, and remove them only after confirming they are CC Flow-owned, contain no local changes, and the user authorizes cleanup.
 
 ## 3. Build the context draft
 
@@ -57,8 +59,8 @@ The decision template in `.ai/decisions.md` intentionally retains placeholders a
 Run:
 
 ```bash
-./scripts/ai-task-check.sh --project
-AI_PROTOCOL_STRICT=1 ./scripts/ai-task-check.sh --project
+./.ai/scripts/ai-task-check.sh --project
+AI_PROTOCOL_STRICT=1 ./.ai/scripts/ai-task-check.sh --project
 ```
 
 Use the first command while drafting. Strict mode should pass before declaring initialization complete. Report installed files, inferred facts, user-supplied decisions, validation outcome, and any remaining unknowns.

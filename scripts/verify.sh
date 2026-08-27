@@ -13,9 +13,9 @@ test -s "$skill_root/assets/workspace-template.yaml"
 
 sh -n "$skill_root/scripts/init-project.sh" \
   "$skill_root/scripts/init-workspace.sh" \
-  "$skill_root/assets/repository-template/scripts/ai-task-start.sh" \
-  "$skill_root/assets/repository-template/scripts/ai-task-check.sh" \
-  "$skill_root/assets/repository-template/scripts/ai-doc-sync.sh"
+  "$skill_root/assets/repository-template/.ai/scripts/ai-task-start.sh" \
+  "$skill_root/assets/repository-template/.ai/scripts/ai-task-check.sh" \
+  "$skill_root/assets/repository-template/.ai/scripts/ai-doc-sync.sh"
 
 qa_root=$(mktemp -d)
 mkdir -p "$qa_root/repository"
@@ -23,6 +23,10 @@ mkdir -p "$qa_root/repository"
 "$skill_root/scripts/init-workspace.sh" "$qa_root/repository" >/dev/null
 
 test -s "$qa_root/repository/.ai/workspace.yaml"
+test -x "$qa_root/repository/.ai/scripts/ai-task-start.sh"
+test -x "$qa_root/repository/.ai/scripts/ai-task-check.sh"
+test -x "$qa_root/repository/.ai/scripts/ai-doc-sync.sh"
+test ! -e "$qa_root/repository/scripts/ai-task-start.sh"
 grep -Eq '^workspace_version:[[:space:]]*1$' "$qa_root/repository/.ai/workspace.yaml"
 if "$skill_root/scripts/init-workspace.sh" "$qa_root/repository" >/dev/null 2>&1; then
   echo "Expected workspace initializer to refuse an existing configuration." >&2
@@ -32,7 +36,7 @@ fi
 cd "$qa_root/repository"
 CC_FLOW_PARENT_TASK=workspace-parent \
 CC_FLOW_REPOSITORY_ROLE=backend \
-  ./scripts/ai-task-start.sh validation "Validate independent test gate" ci >/dev/null
+  ./.ai/scripts/ai-task-start.sh validation "Validate independent test gate" ci >/dev/null
 task_dir=$(find .ai/tasks -mindepth 1 -maxdepth 1 -type d | head -n 1)
 
 test -s "$task_dir/test.md"
@@ -41,6 +45,12 @@ grep -Eq '^delivery_level:[[:space:]]*"standard"$' "$task_dir/task.md"
 grep -Eq '^architecture_style:[[:space:]]*"existing"$' "$task_dir/task.md"
 grep -Eq '^parent_task:[[:space:]]*"workspace-parent"$' "$task_dir/task.md"
 grep -Eq '^repository_role:[[:space:]]*"backend"$' "$task_dir/task.md"
-./scripts/ai-task-check.sh "$task_dir"
+./.ai/scripts/ai-task-check.sh "$task_dir"
+
+mkdir -p "$qa_root/user-scripts/repository/scripts"
+printf '%s\n' '# user-owned script' > "$qa_root/user-scripts/repository/scripts/ai-task-start.sh"
+"$skill_root/scripts/init-project.sh" "$qa_root/user-scripts/repository" >/dev/null
+grep -Fx '# user-owned script' "$qa_root/user-scripts/repository/scripts/ai-task-start.sh" >/dev/null
+test -x "$qa_root/user-scripts/repository/.ai/scripts/ai-task-start.sh"
 
 echo "CC Flow verification passed."
