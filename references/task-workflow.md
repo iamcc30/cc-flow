@@ -6,13 +6,15 @@ If `.ai/workspace.yaml` applies, use [workspace-workflow.md](workspace-workflow.
 
 ## Create a task
 
-Resolve a lowercase hyphenated slug, a clear title, and the owner if known. Run from the repository root:
+Use `.ai/prompts/understand.md` as stage guidance. Read the user's original request, required project context, and relevant repository evidence before defining scope. Classify the task using `.ai/conventions.md`; simple tasks may use the lightweight path allowed there.
+
+For a standard or high-risk task, resolve a lowercase hyphenated slug, a clear title, and the owner if known. If no matching active task exists, run from the repository root:
 
 ```bash
 ./.ai/scripts/ai-task-start.sh <slug> "<task title>" [owner]
 ```
 
-Complete `task.md` from the user's request and repository evidence. The creation script snapshots `.ai/profile.md` into the task. Do not invent acceptance criteria that materially change scope. Classify risk using `.ai/conventions.md`.
+Complete `task.md` from the user's request and repository evidence. The creation script snapshots `.ai/profile.md` into the task. Define observable acceptance criteria without prescribing an unapproved implementation. Mark material unknowns and ask only for decisions that cannot be determined safely; do not invent facts or business rules. Keep status `DRAFT` and approval `pending` until the Plan stage changes them.
 
 ## Plan
 

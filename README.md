@@ -11,8 +11,9 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 - 为现有或新项目初始化 `AGENTS.md` 和 `.ai/` 研发上下文。
 - 用两个字段选择交付级别和架构风格，默认不改变现有架构。
 - 从仓库证据生成项目、架构、业务和进度初稿，不凭空编造事实。
+- 把一句简短需求和仓库证据整理成明确的 `task.md`，未知业务规则不会被静默编造。
 - 为标准任务生成独立的 `task.md`、`plan.md`、`result.md`、`test.md` 和 `review.md`。
-- 强制 Plan、Implement、Test、Review 阶段门槛。
+- 强制 Understand、Plan、Implement、Test、Review 阶段门槛。
 - 只有独立测试记录为 `test_status: passed` 才能进入评审和完成状态。
 - 检查任务证据、文档同步、必填占位符和状态流转。
 - 同时提供 Codex、Claude Code、Cursor 和 GitHub Copilot 的仓库入口文件。
@@ -111,7 +112,7 @@ Skill 包自身的 `scripts/` 是安装和自检工具；复制到业务仓库�
 - `--force` 只应在明确检查冲突并授权覆盖后使用。
 - 初始化上下文时不修改产品代码。
 - 不在 `.ai/` 中保存密钥、凭据、个人敏感数据或生产数据。
-- 旧版任务记录仍可校验；新任务使用包含独立 `test.md` 的协议版本 2。
+- 旧版任务记录仍可校验；新任务使用包含配置快照、跨仓库关联和独立 `test.md` 的协议版本 3。
 
 ## 开发与验证
 

@@ -6,6 +6,7 @@ skill_root=$(CDPATH= cd -- "$script_dir/.." && pwd)
 
 test -s "$skill_root/SKILL.md"
 test -s "$skill_root/agents/openai.yaml"
+test -s "$skill_root/assets/repository-template/.ai/prompts/understand.md"
 test -s "$skill_root/assets/repository-template/.ai/prompts/test.md"
 test -s "$skill_root/assets/repository-template/.ai/templates/task/test.md"
 test -s "$skill_root/assets/repository-template/.ai/profile.md"
@@ -23,6 +24,7 @@ mkdir -p "$qa_root/repository"
 "$skill_root/scripts/init-workspace.sh" "$qa_root/repository" >/dev/null
 
 test -s "$qa_root/repository/.ai/workspace.yaml"
+test -s "$qa_root/repository/.ai/prompts/understand.md"
 test -x "$qa_root/repository/.ai/scripts/ai-task-start.sh"
 test -x "$qa_root/repository/.ai/scripts/ai-task-check.sh"
 test -x "$qa_root/repository/.ai/scripts/ai-doc-sync.sh"
