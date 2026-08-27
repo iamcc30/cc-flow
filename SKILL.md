@@ -1,6 +1,6 @@
 ---
 name: cc-flow
-description: Turn brief software requests into an auditable Plan/Implement/Test/Review workflow for one repository or a configured multi-repository workspace. Use for feature, bug, refactor, project-initialization, or workflow requests when a repository uses CC Flow's `.ai/` layout, or when the user asks to standardize AI development.
+description: Turn brief software requests into an auditable Understand/Plan/Implement/Test/Review workflow for one repository or a configured multi-repository workspace, with lightweight subagent coordination when complex work splits cleanly. Use for feature, bug, refactor, project-initialization, or workflow requests when a repository uses CC Flow's `.ai/` layout, or when the user asks to standardize AI development.
 ---
 
 # CC Flow
@@ -25,6 +25,8 @@ Read only the references required by the current request. For a configured works
 - Do not invent goals, business rules, architecture, commands, owners, approvals, or test results. Mark unknowns and ask only for information that cannot be determined safely.
 - Default to `standard + existing`. Recommend a different profile only from project evidence, never change it without confirmation, and never treat a profile change as authorization for an architecture migration.
 - For standard and high-risk tasks, honor the repository's planning and approval gates before editing product code.
+- Default to one agent. When subagents are available, delegate only if at least two bounded, independent workstreams materially improve speed or quality. Prefer parallel exploration, testing, and review; parallel code edits require disjoint write scopes and stable shared contracts.
+- Subagents are temporary workers, not durable task records. Do not create task directories merely to mirror agents; the main agent owns approval, integration, task status, evidence, and documentation, and delegation never expands the task's permissions.
 - Record exact verification commands and outcomes. Never present an unrun check as passed.
 - Keep secrets, credentials, personal data, and production data out of `.ai/` task records.
 - Project-specific `.ai/` files and `AGENTS.md` persist after the skill finishes and govern later work even when the skill is not invoked.

@@ -53,6 +53,8 @@ Plan affected repositories from dependency boundaries outward. Establish or upda
 
 Each child plan must use the repository's own profile, architecture, conventions, test commands, and approval gate. A parent approval does not silently waive a stricter child-repository gate. If a child discovers a material scope or contract change, update the parent plan and affected sibling plans before continuing.
 
+When subagents are available, the coordinator may delegate independent repository investigation or approved child work after shared contracts and ordering are stable. Repository child tasks remain the durable records; subagents are only execution workers and do not replace child approvals, evidence, or integration checks.
+
 ## 5. Implement, test, review, and finish
 
 Run the normal task workflow independently in each affected repository. Keep repository-local test evidence local. The parent task may reach `DONE` only when:

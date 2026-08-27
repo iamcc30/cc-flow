@@ -31,6 +31,19 @@
 |---|---|---|
 | `{{PATH_OR_MODULE}}` | `{{CHANGE}}` | `{{WHY}}` |
 
+## 执行策略
+
+- 模式：`{{single / coordinated / parallel}}`
+- 判断依据：`{{WHY_THIS_MODE_IS_PROPORTIONATE}}`
+
+仅在 `coordinated` 或 `parallel` 时保留并填写下表；`single` 模式写明无需拆分即可。
+
+| 工作流 | 独立交付结果 | 前置依赖 | 写入边界 | 执行者 |
+|---|---|---|---|---|
+| `{{WORKSTREAM_ID_OR_NA}}` | `{{DELIVERABLE}}` | `{{DEPENDENCY_OR_NONE}}` | `{{OWNED_PATHS_OR_READ_ONLY}}` | `{{MAIN_OR_SUBAGENT_ROLE}}` |
+
+- 主 Agent 集成点：`{{INTEGRATION_AND_HANDOFF_OR_NA}}`
+
 ## 影响分析
 
 - 业务规则：`{{IMPACT_OR_NONE_WITH_REASON}}`

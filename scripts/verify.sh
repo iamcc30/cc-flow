@@ -7,8 +7,10 @@ skill_root=$(CDPATH= cd -- "$script_dir/.." && pwd)
 test -s "$skill_root/SKILL.md"
 test -s "$skill_root/agents/openai.yaml"
 test -s "$skill_root/assets/repository-template/.ai/prompts/understand.md"
+test -s "$skill_root/assets/repository-template/.ai/prompts/plan.md"
 test -s "$skill_root/assets/repository-template/.ai/prompts/test.md"
 test -s "$skill_root/assets/repository-template/.ai/templates/task/test.md"
+grep -Fqx '## 执行策略' "$skill_root/assets/repository-template/.ai/templates/task/plan.md"
 test -s "$skill_root/assets/repository-template/.ai/profile.md"
 test -s "$skill_root/assets/workspace-template.yaml"
 
@@ -25,6 +27,7 @@ mkdir -p "$qa_root/repository"
 
 test -s "$qa_root/repository/.ai/workspace.yaml"
 test -s "$qa_root/repository/.ai/prompts/understand.md"
+test ! -e "$qa_root/repository/.codex"
 test -x "$qa_root/repository/.ai/scripts/ai-task-start.sh"
 test -x "$qa_root/repository/.ai/scripts/ai-task-check.sh"
 test -x "$qa_root/repository/.ai/scripts/ai-doc-sync.sh"
@@ -42,6 +45,7 @@ CC_FLOW_REPOSITORY_ROLE=backend \
 task_dir=$(find .ai/tasks -mindepth 1 -maxdepth 1 -type d | head -n 1)
 
 test -s "$task_dir/test.md"
+grep -Fqx '## 执行策略' "$task_dir/plan.md"
 grep -Eq '^protocol_version:[[:space:]]*3$' "$task_dir/task.md"
 grep -Eq '^delivery_level:[[:space:]]*"standard"$' "$task_dir/task.md"
 grep -Eq '^architecture_style:[[:space:]]*"existing"$' "$task_dir/task.md"
