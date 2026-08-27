@@ -208,7 +208,7 @@ usage() {
   echo "Usage:" >&2
   echo "  $0 --project" >&2
   echo "  $0 --all" >&2
-  echo "  $0 .ai/tasks/<task-directory>" >&2
+  echo "  $0 .ai/tasks/<YYYY-MM-DD>/<slug>" >&2
   exit 2
 }
 
@@ -221,10 +221,20 @@ case "$1" in
   --all)
     check_project
     found=0
+    # Legacy CC Flow releases stored tasks directly under .ai/tasks/.
     for task_dir in "$repo_root"/.ai/tasks/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*; do
       [ -d "$task_dir" ] || continue
       found=1
       check_task "$task_dir"
+    done
+    # Current releases group tasks by creation date to keep the task root small.
+    for date_dir in "$repo_root"/.ai/tasks/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]; do
+      [ -d "$date_dir" ] || continue
+      for task_dir in "$date_dir"/*; do
+        [ -d "$task_dir" ] || continue
+        found=1
+        check_task "$task_dir"
+      done
     done
     [ "$found" -eq 1 ] || echo "No task directories found; project files checked."
     ;;

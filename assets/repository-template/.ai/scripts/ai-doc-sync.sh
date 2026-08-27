@@ -2,7 +2,7 @@
 set -eu
 
 usage() {
-  echo "Usage: $0 .ai/tasks/<task-directory>" >&2
+  echo "Usage: $0 .ai/tasks/<YYYY-MM-DD>/<slug>" >&2
   exit 2
 }
 

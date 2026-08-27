@@ -27,7 +27,7 @@ template_dir="$repo_root/.ai/templates/task"
 profile_file="$repo_root/.ai/profile.md"
 today=$(date +%Y-%m-%d)
 task_id="$today-$slug"
-task_dir="$repo_root/.ai/tasks/$task_id"
+task_dir="$repo_root/.ai/tasks/$today/$slug"
 
 [ -d "$template_dir" ] || {
   echo "Error: task template not found: $template_dir" >&2
@@ -88,5 +88,5 @@ for file in "$task_dir"/*.md; do
   mv "$tmp" "$file"
 done
 
-echo "Created task: .ai/tasks/$task_id"
+echo "Created task: .ai/tasks/$today/$slug"
 echo "Next: complete task.md, then use .ai/prompts/plan.md to prepare plan.md."
