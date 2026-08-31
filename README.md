@@ -8,13 +8,10 @@ UNDERSTAND → PLAN → APPROVE → IMPLEMENT → TEST → REVIEW → DOCUMENT �
 
 ## 核心能力
 
-- 为现有或新项目初始化 `AGENTS.md` 和 `.ai/` 研发上下文。
+- 为现有或新项目初始化 `AGENTS.md` 和 `.ai/`，并从仓库证据生成项目、架构、业务和进度初稿。
 - 用两个字段选择交付级别和架构风格，默认不改变现有架构。
-- 从仓库证据生成项目、架构、业务和进度初稿，不凭空编造事实。
-- 把一句简短需求和仓库证据整理成明确的 `task.md`，未知业务规则不会被静默编造。
-- 为标准任务生成独立的 `task.md`、`plan.md`、`result.md`、`test.md` 和 `review.md`。
-- 强制 Understand、Plan、Implement、Test、Review 阶段门槛。
-- 只有独立测试记录为 `test_status: passed` 才能进入评审和完成状态。
+- 把一句简短需求整理为 `task.md`、`plan.md`、`result.md`、`test.md` 和 `review.md`，不静默编造业务规则。
+- 执行 Understand、Plan、Implement、Test、Review 门槛；只有独立测试通过才能完成任务。
 - 检查任务证据、文档同步、必填占位符和状态流转。
 - 同时提供 Codex、Claude Code、Cursor 和 GitHub Copilot 的仓库入口文件。
 - 可选工作区模式：一句自然语言需求自动路由到产品协调仓库和受影响的代码仓库。
@@ -33,7 +30,7 @@ architecture_style: existing
 
 默认 `standard + existing` 适合大多数项目。选择 `enterprise` 会增加生产质量证据，选择 `ddd` 才会启用领域边界、聚合不变量、仓储和领域事件等要求。配置不会自动授权架构迁移或无关重构。
 
-## 安装
+## 安装与升级
 
 ### Codex 插件市场（推荐）
 
@@ -45,6 +42,8 @@ codex plugin add cc-flow@cc-flow
 ```
 
 第一条命令添加 CC Flow 的 GitHub 市场，第二条命令安装其中的插件。完成后新建一个 Codex 任务，使插件提供的 Skill 进入新任务上下文。
+
+CC Flow 的项目内辅助脚本使用 POSIX `sh`；Windows 原生环境建议通过 WSL 运行项目工作流。
 
 ### 独立 Skill
 
@@ -60,7 +59,39 @@ $skill-installer 从 https://github.com/iamcc30/cc-flow 安装 cc-flow
 git clone https://github.com/iamcc30/cc-flow.git "${CODEX_HOME:-$HOME/.codex}/skills/cc-flow"
 ```
 
-重新打开 Codex 任务后即可使用。
+新建一个 Codex 任务后即可使用。
+
+### 升级已安装版本
+
+插件市场安装：
+
+```bash
+codex plugin marketplace upgrade cc-flow
+codex plugin add cc-flow@cc-flow
+codex plugin list
+```
+
+`plugin list` 应显示新的 CC Flow 版本。升级完成后新建 Codex 任务，已有任务不会重新加载新的 Skill。
+
+版本变化与兼容说明见 [GitHub Releases](https://github.com/iamcc30/cc-flow/releases)。
+
+通过 `git clone` 安装的独立 Skill：
+
+```bash
+git -C "${CODEX_HOME:-$HOME/.codex}/skills/cc-flow" pull --ff-only
+```
+
+如果独立 Skill 是由 Skill Installer 下载而不是 Git 克隆，建议改用插件市场管理后续升级。
+
+### 刷新已有项目
+
+升级插件或 Skill 只更新 CC Flow 本体，不会自动覆盖业务仓库中已经生成并定制过的 `.ai/` 文件。需要采用新版脚本或模板时，在目标仓库的新 Codex 任务中执行：
+
+```text
+$cc-flow 更新当前项目的 CC Flow 规范，保留已有项目配置、项目事实和历史任务
+```
+
+CC Flow 会比较并合并可复用机制，不会自动迁移历史任务。新初始化的项目无需额外刷新。
 
 ## 使用
 
@@ -112,30 +143,10 @@ CC Flow 不按文件数量机械拆分，也不会给每个 Subagent 创建一�
 │   ├── conventions.md
 │   ├── decisions.md
 │   ├── progress.md
-│   ├── prompts/
-│   │   ├── understand.md
-│   │   ├── plan.md
-│   │   ├── implement.md
-│   │   ├── test.md
-│   │   └── review.md
-│   ├── scripts/
-│   │   ├── ai-task-start.sh
-│   │   ├── ai-task-check.sh
-│   │   └── ai-doc-sync.sh
-│   ├── templates/task/
-│   │   ├── task.md
-│   │   ├── plan.md
-│   │   ├── result.md
-│   │   ├── test.md
-│   │   └── review.md
-│   └── tasks/
-│       └── YYYY-MM-DD/
-│           └── HHMMSS-short-slug/
-│               ├── task.md
-│               ├── plan.md
-│               ├── result.md
-│               ├── test.md
-│               └── review.md
+│   ├── prompts/            # 五个研发阶段的提示模板
+│   ├── scripts/            # 任务创建与校验工具
+│   ├── templates/task/     # 任务记录模板
+│   └── tasks/YYYY-MM-DD/HHMMSS-short-slug/
 ├── .cursor/rules/
 └── .github/
 ```
@@ -144,17 +155,17 @@ CC Flow 不按文件数量机械拆分，也不会给每个 Subagent 创建一�
 
 项目上下文与长期规范：
 
-| 文件 | 用途 | 主要更新时机 |
-|---|---|---|
-| `.ai/README.md` | `.ai/` 目录索引、维护原则和敏感信息边界。 | 初始化或目录职责变化时。 |
-| `.ai/project.md` | 说明项目为什么存在、服务谁、目标、非目标、范围和约束。 | 产品目标或项目边界变化时。 |
-| `.ai/profile.md` | 选择交付级别 `prototype / standard / enterprise` 和架构风格。 | 团队明确调整质量门槛或架构约束时。 |
-| `.ai/workspace.yaml` | 多仓库项目的协调配置，记录仓库路径、角色和职责；单仓库可不创建。 | 增删仓库或仓库职责变化时。 |
-| `.ai/architecture.md` | 记录系统边界、模块职责、依赖方向、数据、接口、部署和质量属性。 | 架构事实、接口或部署方式变化时。 |
-| `.ai/business.md` | 记录统一术语、角色权限、业务规则、流程、状态机和异常处理。 | 业务行为或规则变化时。 |
-| `.ai/conventions.md` | AI 和开发者共同遵守的研发协议，包括任务分级、审批、测试和完成标准。 | 团队研发规范或实际检查命令变化时。 |
-| `.ai/decisions.md` | 保存需要长期追溯的重要架构或业务决策及其取舍。 | 产生新的长期决策，或旧决策被替代时。 |
-| `.ai/progress.md` | 提供项目当前阶段、已完成、进行中、风险和下一步的一页式快照。 | 每个正式任务完成或项目状态变化时。 |
+| 文件 | 用途 |
+|---|---|
+| `.ai/README.md` | `.ai/` 目录索引、维护原则和敏感信息边界。 |
+| `.ai/project.md` | 项目目标、用户、范围、非目标和约束。 |
+| `.ai/profile.md` | 交付级别和架构风格。 |
+| `.ai/workspace.yaml` | 多仓库项目的仓库路径、角色和职责；单仓库可不创建。 |
+| `.ai/architecture.md` | 系统边界、模块、依赖、数据、接口和部署约束。 |
+| `.ai/business.md` | 业务术语、权限、规则、流程、状态和异常处理。 |
+| `.ai/conventions.md` | 任务分级、审批、测试和完成标准等研发协议。 |
+| `.ai/decisions.md` | 需要长期追溯的重要决策及其取舍。 |
+| `.ai/progress.md` | 当前阶段、已完成、进行中、风险和下一步。 |
 
 工作流资源：
 
@@ -207,9 +218,6 @@ rsync -a --delete agents/ plugins/cc-flow/skills/cc-flow/agents/
 rsync -a --delete assets/ plugins/cc-flow/skills/cc-flow/assets/
 rsync -a --delete references/ plugins/cc-flow/skills/cc-flow/references/
 rsync -a --delete scripts/ plugins/cc-flow/skills/cc-flow/scripts/
-```
-
-```bash
 ./scripts/verify.sh
 ```
 
