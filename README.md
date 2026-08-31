@@ -73,6 +73,17 @@ codex plugin list
 
 `plugin list` 应显示新的 CC Flow 版本。升级完成后新建 Codex 任务，已有任务不会重新加载新的 Skill。
 
+如果 `upgrade` 报错 `marketplace 'cc-flow' is not configured as a Git marketplace`，说明早期版本把它配置成了本地市场。不要继续执行后续安装命令，先进行一次迁移：
+
+```bash
+codex plugin marketplace remove cc-flow
+codex plugin marketplace add iamcc30/cc-flow --ref main
+codex plugin add cc-flow@cc-flow
+codex plugin list
+```
+
+命令中的插件名应写成 `cc-flow@cc-flow`，不需要在 `@` 前添加反斜杠。迁移只替换 marketplace 来源，不会修改业务仓库的 `.ai/` 或历史任务。
+
 版本变化与兼容说明见 [GitHub Releases](https://github.com/iamcc30/cc-flow/releases)。
 
 通过 `git clone` 安装的独立 Skill：
