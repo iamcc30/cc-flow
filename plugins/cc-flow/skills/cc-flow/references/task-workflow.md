@@ -16,7 +16,9 @@ For a standard or high-risk task, resolve a lowercase hyphenated slug, a clear t
 
 Complete `task.md` from the user's request and repository evidence. The creation script snapshots `.ai/profile.md` into the task. Define observable acceptance criteria without prescribing an unapproved implementation. Mark material unknowns and ask only for decisions that cannot be determined safely; do not invent facts or business rules. Keep status `DRAFT` and approval `pending` until the Plan stage changes them.
 
-The script stores the task at `.ai/tasks/YYYY-MM-DD/<slug>/` while keeping its task ID as `YYYY-MM-DD-<slug>`. Treat the ID as the stable cross-repository reference. Legacy flat directories such as `.ai/tasks/YYYY-MM-DD-<slug>/` remain valid and do not need to be moved.
+The script stores the task at `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/` and assigns the ID `YYYY-MM-DD-HHMMSS-<slug>`. The local creation time provides deterministic same-day display order; it does not represent priority or dependency order. Treat the ID as the stable cross-repository reference.
+
+Legacy dated directories such as `.ai/tasks/YYYY-MM-DD/<slug>/` and older flat directories such as `.ai/tasks/YYYY-MM-DD-<slug>/` remain valid and do not need to be moved.
 
 ## Plan
 
@@ -49,8 +51,8 @@ Record actionable findings in `review.md`. `BLOCKER` and `HIGH` findings must be
 For an active task:
 
 ```bash
-./.ai/scripts/ai-task-check.sh .ai/tasks/<YYYY-MM-DD>/<slug>
-./.ai/scripts/ai-doc-sync.sh .ai/tasks/<YYYY-MM-DD>/<slug>
+./.ai/scripts/ai-task-check.sh .ai/tasks/<YYYY-MM-DD>/<HHMMSS-slug>
+./.ai/scripts/ai-doc-sync.sh .ai/tasks/<YYYY-MM-DD>/<HHMMSS-slug>
 ```
 
 For the project and all tasks:

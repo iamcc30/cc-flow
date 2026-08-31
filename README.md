@@ -130,7 +130,7 @@ CC Flow 不按文件数量机械拆分，也不会给每个 Subagent 创建一�
 │   │   └── review.md
 │   └── tasks/
 │       └── YYYY-MM-DD/
-│           └── short-slug/
+│           └── HHMMSS-short-slug/
 │               ├── task.md
 │               ├── plan.md
 │               ├── result.md
@@ -165,11 +165,11 @@ CC Flow 不按文件数量机械拆分，也不会给每个 Subagent 创建一�
 | `.ai/prompts/implement.md` | 指导 AI 在批准范围内实现、记录偏差，并在完成后进入测试阶段。 |
 | `.ai/prompts/test.md` | 指导 AI 独立执行测试，记录真实命令、结果、未运行项和残余风险。 |
 | `.ai/prompts/review.md` | 指导 AI 根据实际差异和测试证据进行独立评审并形成结论。 |
-| `.ai/scripts/ai-task-start.sh` | 按日期创建任务目录，并从任务模板生成五个任务文件。 |
+| `.ai/scripts/ai-task-start.sh` | 按日期和时间创建任务目录，并从任务模板生成五个任务文件。 |
 | `.ai/scripts/ai-task-check.sh` | 校验项目上下文、任务状态、必需文件、测试结论和完成条件；支持单任务及全量检查。 |
 | `.ai/scripts/ai-doc-sync.sh` | 检查任务是否明确记录了项目、架构、业务、决策、进度等文档的同步结果。 |
 | `.ai/templates/task/` | 保存任务文件的空白结构，只作为创建任务时的模板，不记录真实任务进度。 |
-| `.ai/tasks/YYYY-MM-DD/<slug>/` | 保存某个真实任务从定义、计划、实现、测试到评审的完整可审计证据。 |
+| `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/` | 保存某个真实任务从定义、计划、实现、测试到评审的完整可审计证据；时间前缀让同日任务按创建顺序排列。 |
 
 每个真实任务目录中的文件职责：
 
@@ -194,8 +194,8 @@ Skill 包自身的 `scripts/` 是安装和自检工具；复制到业务仓库�
 - `--force` 只应在明确检查冲突并授权覆盖后使用。
 - 初始化上下文时不修改产品代码。
 - 不在 `.ai/` 中保存密钥、凭据、个人敏感数据或生产数据。
-- 新任务按 `.ai/tasks/YYYY-MM-DD/<slug>/` 归档，任务 ID 仍为 `YYYY-MM-DD-<slug>`。
-- 旧版扁平任务目录仍可校验，升级时不会自动搬迁历史记录；新任务继续使用包含配置快照、跨仓库关联和独立 `test.md` 的协议版本 3。
+- 新任务按 `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/` 归档，任务 ID 为 `YYYY-MM-DD-HHMMSS-<slug>`；时间表示创建顺序，不表示优先级。
+- 旧版日期目录下无时间前缀的任务和更早的扁平任务目录仍可校验，升级时不会自动搬迁历史记录；新任务继续使用包含配置快照、跨仓库关联和独立 `test.md` 的协议版本 3。
 
 ## 开发与验证
 

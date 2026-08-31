@@ -58,17 +58,24 @@ CC_FLOW_REPOSITORY_ROLE=backend \
   ./.ai/scripts/ai-task-start.sh validation "Validate independent test gate" ci >/dev/null
 task_dir=$(find .ai/tasks -mindepth 2 -maxdepth 2 -type d | head -n 1)
 task_date=$(basename "$(dirname "$task_dir")")
+task_name=$(basename "$task_dir")
 
 printf '%s\n' "$task_date" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
-test "$(basename "$task_dir")" = "validation"
+printf '%s\n' "$task_name" | grep -Eq '^[0-9]{6}-validation$'
 test -s "$task_dir/test.md"
 grep -Fqx '## 执行策略' "$task_dir/plan.md"
 grep -Eq '^protocol_version:[[:space:]]*3$' "$task_dir/task.md"
+grep -Eq "^id:[[:space:]]*\"$task_date-[0-9]{6}-validation\"$" "$task_dir/task.md"
 grep -Eq '^delivery_level:[[:space:]]*"standard"$' "$task_dir/task.md"
 grep -Eq '^architecture_style:[[:space:]]*"existing"$' "$task_dir/task.md"
 grep -Eq '^parent_task:[[:space:]]*"workspace-parent"$' "$task_dir/task.md"
 grep -Eq '^repository_role:[[:space:]]*"backend"$' "$task_dir/task.md"
 ./.ai/scripts/ai-task-check.sh "$task_dir"
+
+legacy_dated_dir=".ai/tasks/2026-08-25/legacy-validation"
+mkdir -p "$(dirname "$legacy_dated_dir")"
+cp -R "$task_dir" "$legacy_dated_dir"
+./.ai/scripts/ai-task-check.sh "$legacy_dated_dir"
 
 legacy_task_dir=".ai/tasks/2026-08-26-legacy-validation"
 cp -R "$task_dir" "$legacy_task_dir"

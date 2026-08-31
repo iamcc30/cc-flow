@@ -208,7 +208,7 @@ usage() {
   echo "Usage:" >&2
   echo "  $0 --project" >&2
   echo "  $0 --all" >&2
-  echo "  $0 .ai/tasks/<YYYY-MM-DD>/<slug>" >&2
+  echo "  $0 .ai/tasks/<YYYY-MM-DD>/<HHMMSS-slug>" >&2
   exit 2
 }
 
@@ -227,7 +227,7 @@ case "$1" in
       found=1
       check_task "$task_dir"
     done
-    # Current releases group tasks by creation date to keep the task root small.
+    # Dated layouts may contain current HHMMSS-prefixed or legacy unprefixed tasks.
     for date_dir in "$repo_root"/.ai/tasks/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]; do
       [ -d "$date_dir" ] || continue
       for task_dir in "$date_dir"/*; do

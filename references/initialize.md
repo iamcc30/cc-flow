@@ -28,7 +28,7 @@ For a repository already using this layout, do not reinstall blindly. Compare th
 
 When refreshing an older CC Flow installation that has `scripts/ai-task-*.sh` or `scripts/ai-doc-sync.sh`, install the current helpers under `.ai/scripts/` and update CC Flow references to the new path. Treat the root `scripts/` directory as project-owned: do not delete or overwrite legacy files automatically. Report any old helpers that remain, and remove them only after confirming they are CC Flow-owned, contain no local changes, and the user authorizes cleanup.
 
-Current task creation uses `.ai/tasks/YYYY-MM-DD/<slug>/`. Do not automatically move historical flat `.ai/tasks/YYYY-MM-DD-<slug>/` directories during refresh: the checker supports both layouts. Migrate old task paths only when the user explicitly requests it and repository references have been inspected.
+Current task creation uses `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/`. Do not automatically move historical `.ai/tasks/YYYY-MM-DD/<slug>/` or flat `.ai/tasks/YYYY-MM-DD-<slug>/` directories during refresh: the checker supports all three layouts. Migrate old task paths only when the user explicitly requests it and repository references have been inspected.
 
 ## 3. Build the context draft
 

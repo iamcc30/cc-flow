@@ -1,10 +1,10 @@
 # 任务记录
 
-每个标准或高风险任务使用独立目录，并按创建日期归档：
+每个标准或高风险任务使用独立目录，并按创建日期和时间归档：
 
 ```text
 YYYY-MM-DD/
-└── short-slug/
+└── HHMMSS-short-slug/
 ```
 
 使用脚本创建，不要直接复制后忘记替换任务 ID：
@@ -15,7 +15,9 @@ YYYY-MM-DD/
 
 脚本会把 `.ai/profile.md` 当前的 `delivery_level` 和 `architecture_style` 写入 `task.md` 和 `plan.md`，作为任务配置快照。后续项目配置变化不会悄悄改变已有任务的完成标准。
 
-任务 ID 仍为 `YYYY-MM-DD-short-slug`，所以跨仓库父子任务引用不受目录分层影响。旧版 `.ai/tasks/YYYY-MM-DD-short-slug/` 任务可以原样保留，校验脚本同时支持新旧结构；升级时不会自动搬迁历史记录。
+`HHMMSS` 是任务创建时的本地时间，用于让同一天的任务按创建顺序自然排列，不表示优先级或依赖关系。任务 ID 为 `YYYY-MM-DD-HHMMSS-short-slug`，可作为稳定的跨仓库父子任务引用。
+
+旧版 `.ai/tasks/YYYY-MM-DD/short-slug/` 和更早的 `.ai/tasks/YYYY-MM-DD-short-slug/` 任务都可以原样保留，校验脚本同时支持这些结构；升级时不会自动搬迁历史记录。
 
 任务状态：
 

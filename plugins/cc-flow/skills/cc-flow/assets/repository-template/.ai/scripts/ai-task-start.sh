@@ -25,9 +25,12 @@ script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 repo_root=$(CDPATH= cd -- "$script_dir/../.." && pwd)
 template_dir="$repo_root/.ai/templates/task"
 profile_file="$repo_root/.ai/profile.md"
-today=$(date +%Y-%m-%d)
-task_id="$today-$slug"
-task_dir="$repo_root/.ai/tasks/$today/$slug"
+task_stamp=$(date +%Y-%m-%d-%H%M%S)
+today=${task_stamp%-*}
+task_time=${task_stamp##*-}
+task_name="$task_time-$slug"
+task_id="$today-$task_name"
+task_dir="$repo_root/.ai/tasks/$today/$task_name"
 
 [ -d "$template_dir" ] || {
   echo "Error: task template not found: $template_dir" >&2
@@ -88,5 +91,5 @@ for file in "$task_dir"/*.md; do
   mv "$tmp" "$file"
 done
 
-echo "Created task: .ai/tasks/$today/$slug"
+echo "Created task: .ai/tasks/$today/$task_name"
 echo "Next: complete task.md, then use .ai/prompts/plan.md to prepare plan.md."
