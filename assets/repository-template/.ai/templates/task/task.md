@@ -1,7 +1,7 @@
 ---
 id: "{{TASK_ID}}"
 title: "{{TASK_TITLE}}"
-protocol_version: 3
+protocol_version: 4
 delivery_level: "{{DELIVERY_LEVEL}}"
 architecture_style: "{{ARCHITECTURE_STYLE}}"
 status: DRAFT
@@ -20,19 +20,31 @@ approver: "{{APPROVER_OR_NA}}"
 
 `{{WHY_THIS_TASK_IS_NEEDED}}`
 
-## 目标
+## 用户目标
 
 `{{MEASURABLE_OUTCOME}}`
+
+## 用户场景
+
+- 用户/角色：`{{TARGET_USER_OR_ROLE}}`
+- 触发场景：`{{WHEN_AND_WHERE_THE_NEED_OCCURS}}`
+- 期望改善：`{{USER_VALUE_OR_PROBLEM_REDUCTION}}`
 
 ## 非目标
 
 - `{{EXPLICITLY_OUT_OF_SCOPE}}`
 
-## 验收标准
+## 成功标准
 
 - [ ] `{{ACCEPTANCE_CRITERION_1}}`
 - [ ] `{{ACCEPTANCE_CRITERION_2}}`
 - [ ] `{{ACCEPTANCE_CRITERION_3}}`
+
+## 用户提出的方案
+
+- 原始方案：`{{USER_PROPOSED_SOLUTION_OR_NONE}}`
+- 当前定位：`{{candidate / mandatory_constraint / none}}`
+- 判断依据：`{{WHY_IT_IS_OR_IS_NOT_MANDATORY}}`
 
 ## 当前状态与复现
 

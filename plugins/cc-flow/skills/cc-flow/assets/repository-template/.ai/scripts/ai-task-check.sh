@@ -122,14 +122,14 @@ check_task() {
   test_protocol=0
   case "$protocol_version" in
     ""|1) ;;
-    2|3)
+    2|3|4)
       test_protocol=1
       [ -s "$task_dir/test.md" ] || error "$label/test.md is missing or empty for protocol_version $protocol_version"
       ;;
     *) error "$label/task.md has unsupported protocol_version: $protocol_version" ;;
   esac
 
-  if [ "$protocol_version" = "3" ]; then
+  if [ "$protocol_version" = "3" ] || [ "$protocol_version" = "4" ]; then
     case "$task_delivery_level" in
       prototype|standard|enterprise) ;;
       *) error "$label/task.md has invalid delivery_level: ${task_delivery_level:-<empty>}" ;;
@@ -138,6 +138,13 @@ check_task() {
       existing|layered|clean|hexagonal|ddd) ;;
       *) error "$label/task.md has invalid architecture_style: ${task_architecture_style:-<empty>}" ;;
     esac
+  fi
+
+  if [ "$protocol_version" = "4" ]; then
+    require_heading "## 用户目标" "$task_dir/task.md" "$label/task.md"
+    require_heading "## 用户场景" "$task_dir/task.md" "$label/task.md"
+    require_heading "## 成功标准" "$task_dir/task.md" "$label/task.md"
+    require_heading "## 用户提出的方案" "$task_dir/task.md" "$label/task.md"
   fi
 
   case "$status" in
@@ -156,8 +163,13 @@ check_task() {
   fi
 
   if [ -s "$task_dir/plan.md" ]; then
-    if [ "$protocol_version" = "3" ]; then
+    if [ "$protocol_version" = "3" ] || [ "$protocol_version" = "4" ]; then
       require_heading "## 适用配置" "$task_dir/plan.md" "$label/plan.md"
+    fi
+    if [ "$protocol_version" = "4" ]; then
+      require_heading "## 目标、场景与成功标准" "$task_dir/plan.md" "$label/plan.md"
+      require_heading "## 需求与方案区分" "$task_dir/plan.md" "$label/plan.md"
+      require_heading "## 推荐方案" "$task_dir/plan.md" "$label/plan.md"
     fi
     require_heading "## 修改范围" "$task_dir/plan.md" "$label/plan.md"
     require_heading "## 影响分析" "$task_dir/plan.md" "$label/plan.md"

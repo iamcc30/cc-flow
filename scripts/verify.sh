@@ -25,6 +25,10 @@ test -s "$skill_root/assets/repository-template/.ai/prompts/plan.md"
 test -s "$skill_root/assets/repository-template/.ai/prompts/test.md"
 test -s "$skill_root/assets/repository-template/.ai/templates/task/test.md"
 grep -Fqx '## 执行策略' "$skill_root/assets/repository-template/.ai/templates/task/plan.md"
+grep -Fqx '## 需求与方案区分' "$skill_root/assets/repository-template/.ai/templates/task/plan.md"
+grep -Fqx '## 推荐方案' "$skill_root/assets/repository-template/.ai/templates/task/plan.md"
+grep -Fqx '## 用户场景' "$skill_root/assets/repository-template/.ai/templates/task/task.md"
+grep -Fqx '## 用户提出的方案' "$skill_root/assets/repository-template/.ai/templates/task/task.md"
 test -s "$skill_root/assets/repository-template/.ai/profile.md"
 test -s "$skill_root/assets/workspace-template.yaml"
 grep -Fq 'Do not use for read-only questions' "$skill_root/SKILL.md"
@@ -73,7 +77,7 @@ printf '%s\n' "$task_date" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
 printf '%s\n' "$task_name" | grep -Eq '^[0-9]{6}-validation$'
 test -s "$task_dir/test.md"
 grep -Fqx '## 执行策略' "$task_dir/plan.md"
-grep -Eq '^protocol_version:[[:space:]]*3$' "$task_dir/task.md"
+grep -Eq '^protocol_version:[[:space:]]*4$' "$task_dir/task.md"
 grep -Eq "^id:[[:space:]]*\"$task_date-[0-9]{6}-validation\"$" "$task_dir/task.md"
 grep -Eq '^delivery_level:[[:space:]]*"standard"$' "$task_dir/task.md"
 grep -Eq '^architecture_style:[[:space:]]*"existing"$' "$task_dir/task.md"
@@ -81,9 +85,32 @@ grep -Eq '^parent_task:[[:space:]]*"workspace-parent"$' "$task_dir/task.md"
 grep -Eq '^repository_role:[[:space:]]*"backend"$' "$task_dir/task.md"
 ./.ai/scripts/ai-task-check.sh "$task_dir"
 
+invalid_v4_dir="$qa_root/invalid-v4-task"
+cp -R "$task_dir" "$invalid_v4_dir"
+sed 's/^## 用户场景$/## 场景信息/' "$invalid_v4_dir/task.md" > "$invalid_v4_dir/task.md.tmp"
+mv "$invalid_v4_dir/task.md.tmp" "$invalid_v4_dir/task.md"
+if ./.ai/scripts/ai-task-check.sh "$invalid_v4_dir" >/dev/null 2>&1; then
+  echo "Expected protocol v4 validation to reject a missing product-intent heading." >&2
+  exit 1
+fi
+
 legacy_dated_dir=".ai/tasks/2026-08-25/legacy-validation"
 mkdir -p "$(dirname "$legacy_dated_dir")"
 cp -R "$task_dir" "$legacy_dated_dir"
+sed \
+  -e 's/^protocol_version:[[:space:]]*4$/protocol_version: 3/' \
+  -e 's/^## 用户目标$/## 目标/' \
+  -e 's/^## 用户场景$/## 场景信息/' \
+  -e 's/^## 成功标准$/## 验收标准/' \
+  -e 's/^## 用户提出的方案$/## 方案输入/' \
+  "$legacy_dated_dir/task.md" > "$legacy_dated_dir/task.md.tmp"
+mv "$legacy_dated_dir/task.md.tmp" "$legacy_dated_dir/task.md"
+sed \
+  -e 's/^## 目标、场景与成功标准$/## 目标理解/' \
+  -e 's/^## 需求与方案区分$/## 方案背景/' \
+  -e 's/^## 推荐方案$/## 方案/' \
+  "$legacy_dated_dir/plan.md" > "$legacy_dated_dir/plan.md.tmp"
+mv "$legacy_dated_dir/plan.md.tmp" "$legacy_dated_dir/plan.md"
 ./.ai/scripts/ai-task-check.sh "$legacy_dated_dir"
 
 legacy_task_dir=".ai/tasks/2026-08-26-legacy-validation"

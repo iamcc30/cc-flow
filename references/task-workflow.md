@@ -6,7 +6,13 @@ If `.ai/workspace.yaml` applies, use [workspace-workflow.md](workspace-workflow.
 
 ## Create a task
 
-Use `.ai/prompts/understand.md` as stage guidance. Read the user's original request, required project context, and relevant repository evidence before defining scope. Classify the task using `.ai/conventions.md`; simple tasks may use the lightweight path allowed there.
+Use `.ai/prompts/understand.md` as stage guidance. Read the user's original request, required project context, and relevant repository evidence before defining scope.
+
+Perform a lightweight product-intent check before creating a new task directory. Derive the product goal, user scenario, and observable success criteria from evidence. If a missing answer would materially change scope, user value, business behavior, or acceptance, ask at most 1–3 concise questions and stop before planning or implementation. Do not ask when the evidence is already sufficient, or when a clear bug, mechanical change, or approved decision already defines the outcome.
+
+When the request names an implementation, UI, component, technology, or architecture, record it separately from the user need. Treat it as a candidate solution unless explicitly mandated or required by project evidence; Plan compares viable alternatives and states the recommendation and tradeoffs.
+
+After the intent check, classify the task using `.ai/conventions.md`; simple tasks may use the lightweight path allowed there.
 
 For a standard or high-risk task, resolve a lowercase hyphenated slug, a clear title, and the owner if known. If no matching active task exists, run from the repository root:
 
@@ -14,7 +20,7 @@ For a standard or high-risk task, resolve a lowercase hyphenated slug, a clear t
 ./.ai/scripts/ai-task-start.sh <slug> "<task title>" [owner]
 ```
 
-Complete `task.md` from the user's request and repository evidence. The creation script snapshots `.ai/profile.md` into the task. Define observable acceptance criteria without prescribing an unapproved implementation. Mark material unknowns and ask only for decisions that cannot be determined safely; do not invent facts or business rules. Keep status `DRAFT` and approval `pending` until the Plan stage changes them.
+Complete `task.md` from the user's request and repository evidence. The creation script snapshots `.ai/profile.md` into the task. Keep the user goal, scenario, success criteria, and any user-proposed solution distinct. Define observable success criteria without prescribing an unapproved implementation. Mark remaining unknowns without inventing facts or business rules. Keep status `DRAFT` and approval `pending` until the Plan stage changes them.
 
 The script stores the task at `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/` and assigns the ID `YYYY-MM-DD-HHMMSS-<slug>`. The local creation time provides deterministic same-day display order; it does not represent priority or dependency order. Treat the ID as the stable cross-repository reference.
 
@@ -22,7 +28,7 @@ Legacy dated directories such as `.ai/tasks/YYYY-MM-DD/<slug>/` and older flat d
 
 ## Plan
 
-Read the required project context, `.ai/profile.md`, and the new task. Use `.ai/prompts/plan.md` as stage guidance. Perform read-only investigation and complete `plan.md` with concrete files/modules, impacts, execution strategy, tests, risks, rollback, and the profile-specific gates that genuinely apply. Keep the solution proportional; a profile label does not authorize unrelated abstraction or migration.
+Read the required project context, `.ai/profile.md`, and the new task. Use `.ai/prompts/plan.md` as stage guidance. Perform read-only investigation and complete `plan.md` with the goal/solution distinction, current implementation, viable alternatives, recommendation and tradeoffs, concrete files/modules, impacts, execution strategy, tests, risks, rollback, and the profile-specific gates that genuinely apply. Keep the solution proportional; a profile label does not authorize unrelated abstraction or migration.
 
 Default to `single`. Choose `parallel` only when at least two bounded workstreams have independent deliverables, clear dependencies, and disjoint write scopes, and delegation materially improves speed or quality. Use `coordinated` when workstreams exist but must be serialized. When subagents are available, prefer them for independent exploration, testing, and review. Do not create durable child task directories merely to mirror temporary agents.
 

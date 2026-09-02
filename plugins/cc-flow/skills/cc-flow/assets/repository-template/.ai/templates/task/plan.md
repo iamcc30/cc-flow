@@ -7,15 +7,22 @@
 - 本任务额外门槛：`{{PROFILE_SPECIFIC_GATES_OR_NONE}}`
 - 避免过度设计：`{{HOW_THE_SOLUTION_STAYS_PROPORTIONATE}}`
 
-## 目标理解
+## 目标、场景与成功标准
 
-`{{RESTATED_GOAL_AND_NON_GOALS}}`
+`{{RESTATED_GOAL_USER_SCENARIO_SUCCESS_CRITERIA_AND_NON_GOALS}}`
+
+## 需求与方案区分
+
+- 用户目标：`{{USER_GOAL}}`
+- 用户提出的方案：`{{USER_PROPOSED_SOLUTION_OR_NONE}}`
+- 方案属性：`{{candidate / mandatory_constraint / none}}`
+- 判断依据：`{{WHY_AND_SUPPORTING_EVIDENCE}}`
 
 ## 现状调查与根因
 
 `{{CURRENT_IMPLEMENTATION_EVIDENCE_AND_ROOT_CAUSE_OR_NA}}`
 
-## 方案
+## 推荐方案
 
 `{{PROPOSED_SOLUTION_AND_KEY_DESIGN_CHOICES}}`
 
