@@ -1,7 +1,7 @@
 {
   "name": "cc-flow",
-  "version": "1.7.0",
-  "description": "Turn brief software requests into auditable development workflows.",
+  "version": "1.8.0",
+  "description": "Turn requested software changes into auditable development workflows.",
   "author": {
     "name": "iamcc30",
     "url": "https://github.com/iamcc30"
@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "CC Flow",
     "shortDescription": "Plan, implement, test, and review software changes",
-    "longDescription": "CC Flow turns brief feature, bug, and refactoring requests into an auditable Understand, Plan, Implement, Test, and Review workflow for one or more repositories.",
+    "longDescription": "CC Flow turns feature work, bug fixes, refactoring, optimization, and other requested software changes into an auditable Understand, Plan, Implement, Test, and Review workflow for one or more repositories.",
     "developerName": "iamcc30",
     "category": "Developer Tools",
     "capabilities": [

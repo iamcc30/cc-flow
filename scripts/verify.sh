@@ -27,6 +27,13 @@ test -s "$skill_root/assets/repository-template/.ai/templates/task/test.md"
 grep -Fqx '## 执行策略' "$skill_root/assets/repository-template/.ai/templates/task/plan.md"
 test -s "$skill_root/assets/repository-template/.ai/profile.md"
 test -s "$skill_root/assets/workspace-template.yaml"
+grep -Fq 'Do not use for read-only questions' "$skill_root/SKILL.md"
+grep -Eq 'allow_implicit_invocation:[[:space:]]*true' "$skill_root/agents/openai.yaml"
+grep -Fqx '## Applicability' "$skill_root/assets/repository-template/AGENTS.md"
+grep -Fqx '## 1. 适用范围' "$skill_root/assets/repository-template/.ai/conventions.md"
+grep -Fq 'do not create or update CC Flow task records' "$skill_root/assets/repository-template/CLAUDE.md"
+grep -Fq 'do not create or update CC Flow records' "$skill_root/assets/repository-template/.cursor/rules/ai-development-protocol.mdc"
+grep -Fq 'do not create or update CC Flow records' "$skill_root/assets/repository-template/.github/copilot-instructions.md"
 
 sh -n "$skill_root/scripts/init-project.sh" \
   "$skill_root/scripts/init-workspace.sh" \
@@ -41,6 +48,8 @@ mkdir -p "$qa_root/repository"
 
 test -s "$qa_root/repository/.ai/workspace.yaml"
 test -s "$qa_root/repository/.ai/prompts/understand.md"
+grep -Fqx '## Applicability' "$qa_root/repository/AGENTS.md"
+grep -Fqx '## 1. 适用范围' "$qa_root/repository/.ai/conventions.md"
 test ! -e "$qa_root/repository/.codex"
 test -x "$qa_root/repository/.ai/scripts/ai-task-start.sh"
 test -x "$qa_root/repository/.ai/scripts/ai-task-check.sh"

@@ -1,6 +1,8 @@
 # Repository Instructions for Claude Code
 
-Read and follow `AGENTS.md` and `.ai/conventions.md` before making changes.
+For requests that may change software code, behavior, tests, technical configuration, schemas, dependencies, build/deployment mechanics, or CC Flow itself, read and follow `AGENTS.md` and `.ai/conventions.md` before making changes.
+
+For read-only questions, explanations, exploration, research, reports, summaries, status checks, or standalone document creation, do not create or update CC Flow task records unless the user explicitly invokes it. Read only the context needed to answer.
 
 The canonical project context is stored in:
 

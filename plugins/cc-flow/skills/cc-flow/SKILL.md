@@ -1,11 +1,18 @@
 ---
 name: cc-flow
-description: Turn brief software requests into an auditable Understand/Plan/Implement/Test/Review workflow for one repository or a configured multi-repository workspace, with lightweight subagent coordination when complex work splits cleanly. Use for feature, bug, refactor, project-initialization, or workflow requests when a repository uses CC Flow's `.ai/` layout, or when the user asks to standardize AI development.
+description: Turn requested software changes into an auditable Understand/Plan/Implement/Test/Review workflow. Use when implementing or modifying features, fixing bugs, refactoring or optimizing code, changing tests/configuration/schemas/dependencies/build/deployment, continuing an active CC Flow task, or initializing/refreshing CC Flow across one or more repositories. Do not use for read-only questions, explanations, exploration, research, reports, summaries, status checks, or standalone document creation unless explicitly invoked.
 ---
 
 # CC Flow
 
 Create and operate a durable AI software-development workflow inside each repository. A configured workspace may coordinate several repositories, but each repository remains the source of truth for its own code, rules, task evidence, and approvals.
+
+## Scope
+
+- Invoke implicitly only when the request may change software code, behavior, tests, technical configuration, data schemas, dependencies, build/deployment mechanics, or CC Flow itself.
+- Continue using it for the remaining Plan, Implement, Test, Review, and Document stages of an already active CC Flow task.
+- Do not create or update `.ai/tasks/`, `.ai/progress.md`, or other workflow evidence for read-only questions, explanations, repository exploration, research, reports, summaries, status checks, or standalone document generation. Read only the repository context needed to answer.
+- Explicit invocation with `$cc-flow` always opts into the workflow. If a read-only conversation later becomes a change request, start the workflow before editing.
 
 ## Select the mode
 
