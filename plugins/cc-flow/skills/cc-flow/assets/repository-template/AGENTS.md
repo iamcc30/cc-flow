@@ -28,6 +28,7 @@ For work in scope above, follow `.ai/conventions.md` as the source of truth.
 - Keep changes within the task scope.
 - When `.ai/workspace.yaml` applies, coordinate through its parent task but keep implementation evidence in the owning repository.
 - For non-simple tasks, create or complete the task plan before editing code.
+- Before adding code or dependencies, prefer suitable project implementations, platform/framework capabilities, existing dependencies, and mature third-party libraries in that order; do not force reuse when semantics or boundaries differ.
 - Do not claim tests passed unless they were actually run; record exact commands and outcomes.
 - Do not overwrite unrelated user changes.
 - Update project documentation when business behavior, architecture, interfaces, operations, or progress changes.

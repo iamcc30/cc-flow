@@ -32,6 +32,14 @@
 |---|---|---|---|
 | `{{OPTION}}` | `{{PROS}}` | `{{CONS}}` | `{{CHOSEN_OR_REJECTED}}` |
 
+## 复用与依赖评估
+
+- 项目已有实现/惯例：`{{REUSABLE_PROJECT_CODE_OR_NONE}}`
+- 标准库、框架和已有依赖：`{{PLATFORM_OR_EXISTING_DEPENDENCY_OPTION_OR_NONE}}`
+- 第三方候选：`{{MATURE_LIBRARY_OPTION_OR_NONE}}`
+- 结论与依据：`{{REUSE_EXISTING_OR_ADD_DEPENDENCY_OR_CUSTOM_WITH_REASON}}`
+- 新依赖成本：`{{COMPATIBILITY_MAINTENANCE_SECURITY_LICENSE_SIZE_OPERATIONS_TESTABILITY_OR_NA}}`
+
 ## 修改范围
 
 | 文件/模块 | 修改内容 | 原因 |

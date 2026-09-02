@@ -28,7 +28,9 @@ Legacy dated directories such as `.ai/tasks/YYYY-MM-DD/<slug>/` and older flat d
 
 ## Plan
 
-Read the required project context, `.ai/profile.md`, and the new task. Use `.ai/prompts/plan.md` as stage guidance. Perform read-only investigation and complete `plan.md` with the goal/solution distinction, current implementation, viable alternatives, recommendation and tradeoffs, concrete files/modules, impacts, execution strategy, tests, risks, rollback, and the profile-specific gates that genuinely apply. Keep the solution proportional; a profile label does not authorize unrelated abstraction or migration.
+Read the required project context, `.ai/profile.md`, and the new task. Use `.ai/prompts/plan.md` as stage guidance. Perform read-only investigation and complete `plan.md` with the goal/solution distinction, current implementation, viable alternatives, recommendation and tradeoffs, concrete files/modules, impacts, execution strategy, tests, risks, rollback, and the profile-specific gates that genuinely apply.
+
+Before proposing new code, record the reuse search in this order: suitable project implementations and patterns; standard-library or framework capabilities; already-declared dependencies; mature third-party libraries; custom implementation. Reuse only when semantics and boundaries fit. For a new dependency, explain why existing options are insufficient and assess compatibility, maintenance, security, license, size/runtime or operational cost, and testability using current authoritative evidence. Do not add a dependency for trivial behavior when a small local implementation is clearer and cheaper.
 
 Default to `single`. Choose `parallel` only when at least two bounded workstreams have independent deliverables, clear dependencies, and disjoint write scopes, and delegation materially improves speed or quality. Use `coordinated` when workstreams exist but must be serialized. When subagents are available, prefer them for independent exploration, testing, and review. Do not create durable child task directories merely to mirror temporary agents.
 
@@ -36,7 +38,7 @@ Set status to `PLANNED`. For a standard task, continue only when approval is `ap
 
 ## Implement
 
-Use `.ai/prompts/implement.md`. Set status to `IMPLEMENTING`, stay within the approved plan and selected architecture boundaries, and preserve unrelated changes. If the approved strategy is `parallel` and subagents are available, delegate only the bounded workstreams recorded in the plan, wait for their results, and integrate them in the main agent. Serialize work if scopes overlap or dependencies change. If scope or risk changes materially, update the plan and renew approval when required.
+Use `.ai/prompts/implement.md`. Set status to `IMPLEMENTING`, stay within the approved plan and selected architecture boundaries, and preserve unrelated changes. Follow the approved reuse/dependency decision instead of recreating equivalent helpers, components, services, or infrastructure. If the approved strategy is `parallel` and subagents are available, delegate only the bounded workstreams recorded in the plan, wait for their results, and integrate them in the main agent. Serialize work if scopes overlap or dependencies change. If scope or risk changes materially, update the plan and renew approval when required.
 
 Record the actual changes and plan deviations in `result.md`. Local checks used while coding are implementation feedback, not the independent test conclusion. When implementation is complete, set status to `TESTING`; do not set `VERIFIED` during this stage.
 
@@ -48,7 +50,7 @@ Record exact commands, environment, outcomes, skipped checks, alternative eviden
 
 ## Review
 
-Use `.ai/prompts/review.md`. Review the actual diff and `test.md` against the task, plan, delivery level, and architecture style. For a complex task, use independent review subagents when available and beneficial, then verify and deduplicate their findings in the main agent. Prioritize correctness, boundary cases, error recovery, concurrency and idempotency, security, compatibility, data changes, performance, observability, test sufficiency, documentation consistency, and avoidance of unjustified complexity. Do not approve when `test_status` is not `passed`.
+Use `.ai/prompts/review.md`. Review the actual diff and `test.md` against the task, plan, delivery level, and architecture style. For a complex task, use independent review subagents when available and beneficial, then verify and deduplicate their findings in the main agent. Prioritize correctness, boundary cases, error recovery, concurrency and idempotency, security, compatibility, data changes, performance, observability, test sufficiency, documentation consistency, unnecessary duplication, unjustified custom implementations, and disproportionate dependencies. Do not approve when `test_status` is not `passed`.
 
 Record actionable findings in `review.md`. `BLOCKER` and `HIGH` findings must be resolved and rechecked before `review_status: passed`. Mark the task `DONE` only when the repository's definition of done is satisfied.
 

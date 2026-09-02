@@ -1,6 +1,6 @@
 {
   "name": "cc-flow",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Turn requested software changes into auditable development workflows.",
   "author": {
     "name": "iamcc30",
@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "CC Flow",
     "shortDescription": "Plan, implement, test, and review software changes",
-    "longDescription": "CC Flow turns requested software changes into an auditable workflow, checks product intent without unnecessary questioning, separates user needs from proposed solutions, and guides implementation, testing, and review across one or more repositories.",
+    "longDescription": "CC Flow turns requested software changes into an auditable workflow, checks product intent without unnecessary questioning, separates user needs from solutions, prefers suitable reuse or mature libraries over duplicate custom code, and guides implementation, testing, and review across repositories.",
     "developerName": "iamcc30",
     "category": "Developer Tools",
     "capabilities": [
