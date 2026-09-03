@@ -5,8 +5,10 @@ alwaysApply: true
 
 # AI Development Protocol
 
-Apply this protocol when the request may modify software code, behavior, tests, technical configuration, schemas, dependencies, build/deployment mechanics, or CC Flow itself. Before editing, read `AGENTS.md`, `.ai/project.md`, `.ai/profile.md`, `.ai/architecture.md`, `.ai/business.md`, `.ai/conventions.md`, and `.ai/progress.md`.
+Apply this protocol when the request may modify software code, behavior, tests, technical configuration, schemas, dependencies, build or deployment configuration, or CC Flow itself. Before editing, read `AGENTS.md`, `.ai/project.md`, `.ai/profile.md`, `.ai/architecture.md`, `.ai/business.md`, `.ai/conventions.md`, and `.ai/progress.md`.
 
 For read-only questions, explanations, exploration, research, reports, summaries, status checks, or standalone document creation, do not create or update CC Flow records unless explicitly requested.
+
+Routine Git integration, tagging/release, and deployment of an existing reviewed artifact through an established runbook stay outside CC Flow unless semantic code/configuration changes are required; normal permission and production-safety requirements still apply.
 
 Use an active task under `.ai/tasks/` for non-simple work. Follow the stage gates in `.ai/conventions.md`, keep changes within scope, record actual verification commands, update affected documentation, and never claim unrun tests passed.

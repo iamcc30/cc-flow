@@ -1,6 +1,6 @@
 ---
 name: cc-flow
-description: Turn requested software changes into an auditable Understand/Plan/Implement/Test/Review workflow. Use when implementing or modifying features, fixing bugs, refactoring or optimizing code, changing tests/configuration/schemas/dependencies/build/deployment, continuing an active CC Flow task, or initializing/refreshing CC Flow across one or more repositories. Do not use for read-only questions, explanations, exploration, research, reports, summaries, status checks, or standalone document creation unless explicitly invoked.
+description: Turn requested software changes into an auditable Understand/Plan/Implement/Test/Review workflow. Use when implementing or modifying features, fixing bugs, refactoring or optimizing code, changing tests/configuration/schemas/dependencies/build or deployment configuration, continuing an active CC Flow task, or initializing/refreshing CC Flow across repositories. Do not use for read-only work, standalone documents, routine Git integration, release/tagging, or routine deployment execution unless explicitly invoked or code/configuration changes are required.
 ---
 
 # CC Flow
@@ -9,9 +9,10 @@ Create and operate a durable AI software-development workflow inside each reposi
 
 ## Scope
 
-- Invoke implicitly only when the request may change software code, behavior, tests, technical configuration, data schemas, dependencies, build/deployment mechanics, or CC Flow itself.
+- Invoke implicitly only when the request may change software code, behavior, tests, technical configuration, data schemas, dependencies, build or deployment configuration, or CC Flow itself.
 - Continue using it for the remaining Plan, Implement, Test, Review, and Document stages of an already active CC Flow task.
 - Do not create or update `.ai/tasks/`, `.ai/progress.md`, or other workflow evidence for read-only questions, explanations, repository exploration, research, reports, summaries, status checks, or standalone document generation. Read only the repository context needed to answer.
+- Do not create or update CC Flow evidence for routine merge/rebase/cherry-pick operations, tagging or release execution, or routine deployment of an existing reviewed artifact through an established runbook. These operations still obey normal permission, safety, and production-authorization requirements. If conflict resolution or a failed deployment requires semantic code/configuration changes, enter or resume CC Flow before making those changes.
 - Explicit invocation with `$cc-flow` always opts into the workflow. If a read-only conversation later becomes a change request, start the workflow before editing.
 
 ## Select the mode

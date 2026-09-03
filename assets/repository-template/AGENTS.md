@@ -4,9 +4,11 @@ These instructions apply to the entire repository. More specific `AGENTS.md` fil
 
 ## Applicability
 
-Apply the CC Flow workflow when a request may modify software code, behavior, tests, technical configuration, data schemas, dependencies, build/deployment mechanics, or CC Flow itself, and when continuing an active CC Flow task.
+Apply the CC Flow workflow when a request may modify software code, behavior, tests, technical configuration, data schemas, dependencies, build or deployment configuration, or CC Flow itself, and when continuing an active CC Flow task.
 
 Read-only questions, explanations, repository exploration, research, reports, summaries, status checks, and standalone document creation must not create or update `.ai/tasks/`, `.ai/progress.md`, or other workflow evidence unless the user explicitly invokes CC Flow. Read only the files needed to answer. If the request later becomes a software change, start the workflow before editing.
+
+Routine merge/rebase/cherry-pick operations, tagging or release execution, and routine deployment of an existing reviewed artifact through an established runbook also stay outside CC Flow. They still require normal permission and production-safety checks. If conflict resolution or deployment failure requires semantic code/configuration changes, start or resume CC Flow before editing.
 
 ## Required context
 

@@ -54,6 +54,8 @@ Use `.ai/prompts/review.md`. Review the actual diff and `test.md` against the ta
 
 Record actionable findings in `review.md`. `BLOCKER` and `HIGH` findings must be resolved and rechecked before `review_status: passed`. Mark the task `DONE` only when the repository's definition of done is satisfied.
 
+Routine branch integration, tagging/release, and deployment of an existing reviewed artifact through an established runbook happen outside CC Flow after the development task is done; do not reopen or create a task merely to record them. They remain subject to normal permissions and production authorization. If merge conflicts or deployment failures require semantic code/configuration changes, return to an active task or create a new task before editing.
+
 ## Validate
 
 For an active task:
