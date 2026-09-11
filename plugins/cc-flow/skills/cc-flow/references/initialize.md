@@ -32,6 +32,8 @@ Current task creation uses `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/`. Do not automat
 
 ## 3. Build the context draft
 
+On refresh, merge the baseline, evidence, and concise-document rules into existing entry files and conventions. Preserve historical tasks and their protocol versions. Replace stale project facts rather than append an upgrade diary. Offer archival only when requested; do not delete history or change task links silently.
+
 Read the installed `AGENTS.md` and `.ai/conventions.md`. Fill project files from observable evidence:
 
 - `.ai/profile.md`: keep `standard + existing` by default. Recommend another delivery level or architecture style only when project evidence justifies it; obtain confirmation before changing the fields.

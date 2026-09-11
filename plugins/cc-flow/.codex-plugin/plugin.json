@@ -1,6 +1,6 @@
 {
   "name": "cc-flow",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "Turn requested software changes into auditable development workflows.",
   "author": {
     "name": "iamcc30",

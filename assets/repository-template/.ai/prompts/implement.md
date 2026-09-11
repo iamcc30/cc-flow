@@ -1,5 +1,7 @@
 # Implement 阶段提示模板
 
+编码前复核 plan.md 的基线：中断恢复或目标分支变化后重新 fetch 并比较上游和目标分支，安全同步后再编辑；未验证状态必须说明。记录变更与偏差即可，测试证据只写入 test.md。
+
 ```text
 你现在处于 IMPLEMENT 阶段。请读取 AGENTS.md、.ai/profile.md、.ai/conventions.md、{{TASK_PATH}}/task.md 和已批准的 plan.md。
 

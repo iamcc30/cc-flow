@@ -12,6 +12,8 @@ Routine merge/rebase/cherry-pick operations, tagging or release execution, and r
 
 ## Required context
 
+Before development, fetch relevant remote refs and check both upstream and the intended integration branch. Safely synchronize a clean behind branch; preserve dirty/diverged work. Record the baseline in the plan and disclose failed fetches or stale targets before editing.
+
 For work in scope above, before planning or editing, read:
 
 1. `.ai/workspace.yaml`, when present
@@ -28,6 +30,7 @@ For work in scope above, before planning or editing, read:
 For work in scope above, follow `.ai/conventions.md` as the source of truth.
 
 - Keep changes within the task scope.
+- Important decisions need concrete evidence and a smallest-change alternative; speculative future needs do not justify complexity. Requirements, plans and test evidence each have one source; reference instead of copying. Read only the active task and relevant project context, not all historical tasks.
 - When `.ai/workspace.yaml` applies, coordinate through its parent task but keep implementation evidence in the owning repository.
 - For non-simple tasks, create or complete the task plan before editing code.
 - Before adding code or dependencies, prefer suitable project implementations, platform/framework capabilities, existing dependencies, and mature third-party libraries in that order; do not force reuse when semantics or boundaries differ.

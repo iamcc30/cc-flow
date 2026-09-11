@@ -6,6 +6,10 @@ If `.ai/workspace.yaml` applies, use [workspace-workflow.md](workspace-workflow.
 
 ## Create a task
 
+Before planning, check `git status --short`, current branch, HEAD, upstream, and the intended integration branch from project rules or the PR target. Fetch the relevant remote refs, then compare HEAD with both upstream and the integration target using `git rev-list --left-right --count HEAD...<ref>` and `git merge-base --is-ancestor <ref> HEAD`. Do not assume a feature branch is current merely because it matches its upstream. Resolve an unknown integration target before synchronization; do not guess main or master.
+
+On a clean branch that is strictly behind its upstream, use `git merge --ff-only <upstream>` within the agreed workflow. If the target is ahead, or the tree is dirty or diverged, preserve user changes and choose an in-scope merge/rebase or a fresh workspace from the target. Do not reset, force-push, or automatically stash changes. If safe synchronization needs a missing user choice, explain it before editing. Failed fetch means unverified, not up to date; disclose it and obtain agreement before developing on that baseline. Local-only repositories record N/A. Record branch, HEAD, target ref/SHA, fetch outcome, and synchronization decision once in plan.md. Recheck on resumption or when the target changes. Git operations themselves do not create separate CC Flow tasks.
+
 Use `.ai/prompts/understand.md` as stage guidance. Read the user's original request, required project context, and relevant repository evidence before defining scope.
 
 Perform a lightweight product-intent check before creating a new task directory. Derive the product goal, user scenario, and observable success criteria from evidence. If a missing answer would materially change scope, user value, business behavior, or acceptance, ask at most 1–3 concise questions and stop before planning or implementation. Do not ask when the evidence is already sufficient, or when a clear bug, mechanical change, or approved decision already defines the outcome.
@@ -27,6 +31,8 @@ The script stores the task at `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/` and assigns 
 Legacy dated directories such as `.ai/tasks/YYYY-MM-DD/<slug>/` and older flat directories such as `.ai/tasks/YYYY-MM-DD-<slug>/` remain valid and do not need to be moved.
 
 ## Plan
+
+Use task.md as the requirement source without restating it. For each material decision cite evidence, identify the smallest viable change, and name the confirmed requirement that makes extra complexity necessary. Mark unverified assumptions and how to test them. Do not invent competing designs to fill a table. Evidence already supports a suitable reuse option? Stop searching. A short plan is sufficient when risk is low.
 
 Read the required project context, `.ai/profile.md`, and the new task. Use `.ai/prompts/plan.md` as stage guidance. Perform read-only investigation and complete `plan.md` with the goal/solution distinction, current implementation, viable alternatives, recommendation and tradeoffs, concrete files/modules, impacts, execution strategy, tests, risks, rollback, and the profile-specific gates that genuinely apply.
 
@@ -57,6 +63,8 @@ Record actionable findings in `review.md`. `BLOCKER` and `HIGH` findings must be
 Routine branch integration, tagging/release, and deployment of an existing reviewed artifact through an established runbook happen outside CC Flow after the development task is done; do not reopen or create a task merely to record them. They remain subject to normal permissions and production authorization. If merge conflicts or deployment failures require semantic code/configuration changes, return to an active task or create a new task before editing.
 
 ## Validate
+
+Keep documentation bounded: aim for one screen of project progress and one page per task document; these are editing targets, not reasons to omit critical evidence. Replace outdated project facts rather than append task diaries. Full logs belong in CI/artifacts, linked from test.md. Optional sections may be removed; required headings may contain a concise N/A reason. Archive completed tasks only when requested, preserve IDs/links, and exclude archives from routine reads. Do not scan all history to answer an active task question.
 
 For an active task:
 

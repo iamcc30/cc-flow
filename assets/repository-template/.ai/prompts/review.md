@@ -1,5 +1,7 @@
 # Review 阶段提示模板
 
+检查关键决策的代码/测试/测量依据，以及复杂度是否对应已确认要求；缺少证据不能用完整文档代替。只记录发现、复核与结论，通过链接引用 task.md 和 test.md。
+
 ```text
 你现在处于 REVIEW 阶段。请阅读 AGENTS.md、.ai/profile.md、.ai/conventions.md、{{TASK_PATH}} 下的全部材料（包括 test.md），以及本任务的实际代码差异。若 test_status 不是 passed，不得给出通过结论。
 

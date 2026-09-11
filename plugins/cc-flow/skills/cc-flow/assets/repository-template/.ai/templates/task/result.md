@@ -10,22 +10,7 @@
 |---|---|---|
 | `{{PATH_OR_MODULE}}` | `{{CHANGE}}` | `{{NONE_OR_EXPLANATION}}` |
 
-## 验收结果
-
-- [ ] `{{ACCEPTANCE_CRITERION_AND_EVIDENCE}}`
-
-## 实现阶段自检
-
-> 这里只记录为辅助实现而运行的局部检查。正式测试范围和证据必须写入 `test.md`。
-
-- 局部检查：`{{COMMAND_OR_CHECK_OR_NONE}}`
-- 结果：`{{RESULT_OR_NA}}`
-
-## 配置符合性
-
-- 交付级别：`{{DELIVERY_LEVEL_COMPLIANCE}}`
-- 架构风格：`{{ARCHITECTURE_STYLE_COMPLIANCE}}`
-- 偏差或不适用项：`{{NONE_OR_EXPLANATION}}`
+验收与测试结果见 test.md；仅补充与计划或项目配置的实际偏差。
 
 ## 文档同步
 

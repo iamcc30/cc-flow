@@ -25,6 +25,9 @@ Read only the references required by the current request. For a configured works
 
 ## Invariants
 
+- Before planning and again before editing after a pause, follow the baseline check in `references/task-workflow.md`: verify both upstream and target integration refs after fetching. Never silently develop on a stale or unverified baseline.
+- Ground important decisions in code, tests, call paths, measurements, or authoritative references. Start with the smallest viable change; added abstraction or dependencies need a confirmed requirement the simple option cannot meet. Future extensibility alone is insufficient.
+- Keep one source per fact: requirements in task.md, decisions in plan.md, test evidence in test.md, deviations in result.md, findings in review.md. Link rather than repeat; read historical tasks only on demand.
 - Do not treat the skill's template as project truth. Copy it into the target repository, then derive project-specific content from evidence.
 - Treat a short request such as "add resident registration" as sufficient to start Understand, not implementation. First derive the product goal, user scenario, and success criteria from repository evidence. Ask at most 1–3 concise questions only when missing information would materially change scope, user value, or acceptance; do not repeat facts already available or turn every task into a product interview.
 - Treat a user-proposed UI, technology, component, or architecture as a candidate solution unless the user or project evidence makes it a mandatory constraint. Keep the user goal, proposed solution, alternatives, and recommendation distinct.
