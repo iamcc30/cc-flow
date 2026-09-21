@@ -11,6 +11,11 @@ usage() {
 slug=$1
 title=$2
 owner=${3:-unassigned}
+task_mode=${CC_FLOW_TASK_MODE:-compact}
+case "$task_mode" in
+  compact|full) ;;
+  *) echo "Error: CC_FLOW_TASK_MODE must be compact or full." >&2; exit 2 ;;
+esac
 parent_task=${CC_FLOW_PARENT_TASK:-N/A}
 repository_role=${CC_FLOW_REPOSITORY_ROLE:-repository}
 
@@ -30,7 +35,8 @@ today=${task_stamp%-*}
 task_time=${task_stamp##*-}
 task_name="$task_time-$slug"
 task_id="$today-$task_name"
-task_dir="$repo_root/.ai/tasks/$today/$task_name"
+date_path=$(printf '%s' "$today" | tr '-' '/')
+task_dir="$repo_root/.ai/tasks/$date_path/$task_name"
 
 [ -d "$template_dir" ] || {
   echo "Error: task template not found: $template_dir" >&2
@@ -61,7 +67,11 @@ esac
 }
 
 mkdir -p "$task_dir"
-cp "$template_dir"/*.md "$task_dir/"
+if [ "$task_mode" = "full" ]; then
+  cp "$template_dir"/*.md "$task_dir/"
+else
+  cp "$repo_root/.ai/templates/compact-task.md" "$task_dir/task.md"
+fi
 
 escape_sed() {
   printf '%s' "$1" | sed 's/[&|\\]/\\&/g'
@@ -91,5 +101,5 @@ for file in "$task_dir"/*.md; do
   mv "$tmp" "$file"
 done
 
-echo "Created task: .ai/tasks/$today/$task_name"
-echo "Next: complete task.md, then use .ai/prompts/plan.md to prepare plan.md."
+echo "Created $task_mode task: .ai/tasks/$date_path/$task_name"
+echo "Next: complete the goal, plan and verification evidence in the selected format."

@@ -17,9 +17,26 @@ Create and operate a durable AI software-development workflow inside each reposi
 
 ## Select the mode
 
+Select effort before reading references or creating files:
+- **Light:** bounded, low-risk, easy-to-verify changes, even across several files. Explain briefly, implement, run targeted checks, inspect the diff, summarize. No task directory or progress update unless durable project facts changed. No automatic initialization.
+- **Compact (default for ordinary features):** one task.md contains goal, evidence-backed plan/baseline, verification and result. Use the compact procedure below.
+- **Full:** cross-repository coordination, genuinely complex work, or high-risk data/security/payment/compatibility changes. Read the full task reference. High-risk plans require human approval.
+
+Do not classify by file count. Explicit invocation selects CC Flow, not necessarily Full. Existing tasks keep their format. Repository-specific stricter requirements still apply; disclose conflicts instead of silently downgrading.
+
+### Compact procedure
+
+Read applicable repository rules and relevant code/tests, not all project context. Reuse already-loaded unchanged context; load architecture/business/profile only when relevant. Do not read history or every stage prompt. Check the Git baseline as described in the first two paragraphs of the task reference before editing; record it once in task.md (Light: in the work summary).
+
+For an initialized repository run `.ai/scripts/ai-task-start.sh <slug> "<title>" [owner]`; it creates only task.md at `.ai/tasks/YYYY/MM/DD/HHMMSS-<slug>/`. Do not install the full overlay just to make a small change. If initialization is not requested, use a concise in-conversation record.
+
+Clarify only material unknowns. Record the smallest viable plan with concrete evidence. Respect project approval rules; explicit authorization can support not_required for ordinary tasks, never high-risk work. Implement, run risk-appropriate tests, then review the actual diff. Store commands, outcomes, skipped checks and residual risk once; test_status and review_status become passed only with actual evidence. Set DONE only when acceptance and required checks pass. Validate only the active record with ai-task-check.sh, not --all. The checker validates structure, not truth or quality.
+
+Update durable docs only when facts changed, never solely to record activity. Keep logs in artifacts, use links/short failure excerpts. Default to one agent; no extra agent merely to satisfy a stage. If complexity or risk increases, switch to Full before risky edits, preserve the ID and existing evidence, add needed full templates and use protocol v4; do not create a duplicate task.
+
 - **Initialize or refresh a repository:** Read [references/initialize.md](references/initialize.md).
 - **Initialize or operate a multi-repository workspace, or route a brief feature request across repositories:** Read [references/workspace-workflow.md](references/workspace-workflow.md).
-- **Create, plan, implement, test, review, or validate a task:** Read [references/task-workflow.md](references/task-workflow.md).
+- **Full task only:** Read [references/task-workflow.md](references/task-workflow.md). Its multi-file requirements do not apply to Light or Compact.
 
 Read only the references required by the current request. For a configured workspace request, read the workspace workflow first, then the task workflow for affected repositories. If initialization is also required, initialize before task execution.
 
@@ -27,7 +44,7 @@ Read only the references required by the current request. For a configured works
 
 - Before planning and again before editing after a pause, follow the baseline check in `references/task-workflow.md`: verify both upstream and target integration refs after fetching. Never silently develop on a stale or unverified baseline.
 - Ground important decisions in code, tests, call paths, measurements, or authoritative references. Start with the smallest viable change; added abstraction or dependencies need a confirmed requirement the simple option cannot meet. Future extensibility alone is insufficient.
-- Keep one source per fact: requirements in task.md, decisions in plan.md, test evidence in test.md, deviations in result.md, findings in review.md. Link rather than repeat; read historical tasks only on demand.
+- Keep one source per fact: Compact uses task.md only; Full separates requirements, decisions, tests, deviations and findings. Link rather than repeat; read historical tasks only on demand.
 - Do not treat the skill's template as project truth. Copy it into the target repository, then derive project-specific content from evidence.
 - Treat a short request such as "add resident registration" as sufficient to start Understand, not implementation. First derive the product goal, user scenario, and success criteria from repository evidence. Ask at most 1–3 concise questions only when missing information would materially change scope, user value, or acceptance; do not repeat facts already available or turn every task into a product interview.
 - Treat a user-proposed UI, technology, component, or architecture as a candidate solution unless the user or project evidence makes it a mandatory constraint. Keep the user goal, proposed solution, alternatives, and recommendation distinct.

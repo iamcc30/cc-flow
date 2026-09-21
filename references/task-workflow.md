@@ -1,6 +1,6 @@
 # Structured Task Workflow
 
-Use this procedure after the repository contains the CC Flow layout.
+Use this multi-file procedure only for Full tasks. Light and Compact use SKILL.md; do not load these stage prompts for them.
 
 If `.ai/workspace.yaml` applies, use [workspace-workflow.md](workspace-workflow.md) to resolve affected repositories and linked parent/child tasks before following this repository-local procedure.
 
@@ -21,12 +21,12 @@ After the intent check, classify the task using `.ai/conventions.md`; simple tas
 For a standard or high-risk task, resolve a lowercase hyphenated slug, a clear title, and the owner if known. If no matching active task exists, run from the repository root:
 
 ```bash
-./.ai/scripts/ai-task-start.sh <slug> "<task title>" [owner]
+CC_FLOW_TASK_MODE=full ./.ai/scripts/ai-task-start.sh <slug> "<task title>" [owner]
 ```
 
 Complete `task.md` from the user's request and repository evidence. The creation script snapshots `.ai/profile.md` into the task. Keep the user goal, scenario, success criteria, and any user-proposed solution distinct. Define observable success criteria without prescribing an unapproved implementation. Mark remaining unknowns without inventing facts or business rules. Keep status `DRAFT` and approval `pending` until the Plan stage changes them.
 
-The script stores the task at `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/` and assigns the ID `YYYY-MM-DD-HHMMSS-<slug>`. The local creation time provides deterministic same-day display order; it does not represent priority or dependency order. Treat the ID as the stable cross-repository reference.
+The script stores the task at `.ai/tasks/YYYY/MM/DD/HHMMSS-<slug>/` and assigns the ID `YYYY-MM-DD-HHMMSS-<slug>`. The local creation time provides deterministic same-day display order; it does not represent priority or dependency order. Treat the ID as the stable cross-repository reference.
 
 Legacy dated directories such as `.ai/tasks/YYYY-MM-DD/<slug>/` and older flat directories such as `.ai/tasks/YYYY-MM-DD-<slug>/` remain valid and do not need to be moved.
 
@@ -69,8 +69,8 @@ Keep documentation bounded: aim for one screen of project progress and one page 
 For an active task:
 
 ```bash
-./.ai/scripts/ai-task-check.sh .ai/tasks/<YYYY-MM-DD>/<HHMMSS-slug>
-./.ai/scripts/ai-doc-sync.sh .ai/tasks/<YYYY-MM-DD>/<HHMMSS-slug>
+./.ai/scripts/ai-task-check.sh .ai/tasks/<YYYY>/<MM>/<DD>/<HHMMSS-slug>
+./.ai/scripts/ai-doc-sync.sh .ai/tasks/<YYYY>/<MM>/<DD>/<HHMMSS-slug>
 ```
 
 For the project and all tasks:

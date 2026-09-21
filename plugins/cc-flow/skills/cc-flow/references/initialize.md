@@ -28,9 +28,11 @@ For a repository already using this layout, do not reinstall blindly. Compare th
 
 When refreshing an older CC Flow installation that has `scripts/ai-task-*.sh` or `scripts/ai-doc-sync.sh`, install the current helpers under `.ai/scripts/` and update CC Flow references to the new path. Treat the root `scripts/` directory as project-owned: do not delete or overwrite legacy files automatically. Report any old helpers that remain, and remove them only after confirming they are CC Flow-owned, contain no local changes, and the user authorizes cleanup.
 
-Current task creation uses `.ai/tasks/YYYY-MM-DD/HHMMSS-<slug>/`. Do not automatically move historical `.ai/tasks/YYYY-MM-DD/<slug>/` or flat `.ai/tasks/YYYY-MM-DD-<slug>/` directories during refresh: the checker supports all three layouts. Migrate old task paths only when the user explicitly requests it and repository references have been inspected.
+Current task creation uses `.ai/tasks/YYYY/MM/DD/HHMMSS-<slug>/`. Do not automatically move historical `.ai/tasks/YYYY-MM-DD/<slug>/` or flat `.ai/tasks/YYYY-MM-DD-<slug>/` directories during refresh: the checker supports the new layout and all historical layouts. Migrate old task paths only when the user explicitly requests it and repository references have been inspected.
 
 ## 3. Build the context draft
+
+Refresh entry files and conventions together: remove unconditional context preloads, file-count grading and mandatory five-document requirements for ordinary tasks. Light has no task record; Compact uses protocol v5 task.md only; Full and existing tasks retain v1–v4 support. Install the compact template and updated scripts without rewriting historical tasks. Read prompts only for the selected mode. Preserve stricter project-specific gates and surface any conflict.
 
 On refresh, merge the baseline, evidence, and concise-document rules into existing entry files and conventions. Preserve historical tasks and their protocol versions. Replace stale project facts rather than append an upgrade diary. Offer archival only when requested; do not delete history or change task links silently.
 

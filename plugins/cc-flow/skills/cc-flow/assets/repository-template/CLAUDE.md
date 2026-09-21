@@ -6,7 +6,7 @@ For read-only questions, explanations, exploration, research, reports, summaries
 
 Routine Git integration, tagging/release, and deployment of an existing reviewed artifact through an established runbook do not use CC Flow unless they require semantic code/configuration changes. Normal permission and production-safety requirements still apply.
 
-The canonical project context is stored in:
+Load only relevant context, not this entire list. Light needs no task directory; Compact uses one task.md; Full alone uses separate stage records. Canonical context locations:
 
 - `.ai/project.md`
 - `.ai/profile.md`
@@ -15,4 +15,4 @@ The canonical project context is stored in:
 - `.ai/progress.md`
 - `.ai/decisions.md`
 
-Use the active directory under `.ai/tasks/` for the task brief, plan, result, and review. Do not bypass the planning, verification, documentation, or approval gates defined in `.ai/conventions.md`.
+For Full, use the active directory under `.ai/tasks/` for separate stage records. Do not bypass the planning, verification, documentation, or approval gates defined in `.ai/conventions.md`.

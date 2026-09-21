@@ -16,7 +16,7 @@ CC Flow 只为软件开发和修改任务维护这里的流程记录。只读问
 - `prompts/`：Understand、Plan、Implement、Test、Review 阶段的可复用提示模板。
 - `scripts/`：CC Flow 的项目内工作流工具，与业务仓库自己的脚本隔离。
 - `templates/`：任务材料的空白模板。
-- `tasks/`：实际任务记录，每个任务一个目录。
+- `tasks/YYYY/MM/DD/HHMMSS-slug/`：普通任务只有 task.md；复杂或高风险任务使用五文件，小任务不建目录。旧任务保持原位。
 - `workspace.yaml`（可选）：一个产品跨多个仓库时，记录协调仓库、仓库路径和职责；单仓库项目不需要。
 
 ## 维护原则

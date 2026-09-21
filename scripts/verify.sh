@@ -71,11 +71,12 @@ if "$skill_root/scripts/init-workspace.sh" "$qa_root/repository" >/dev/null 2>&1
 fi
 
 cd "$qa_root/repository"
+CC_FLOW_TASK_MODE=full \
 CC_FLOW_PARENT_TASK=workspace-parent \
 CC_FLOW_REPOSITORY_ROLE=backend \
   ./.ai/scripts/ai-task-start.sh validation "Validate independent test gate" ci >/dev/null
-task_dir=$(find .ai/tasks -mindepth 2 -maxdepth 2 -type d | head -n 1)
-task_date=$(basename "$(dirname "$task_dir")")
+task_dir=$(find .ai/tasks -mindepth 4 -maxdepth 4 -type d | head -n 1)
+task_date=$(dirname "$task_dir" | sed 's|^.ai/tasks/||; s|/|-|g')
 task_name=$(basename "$task_dir")
 
 printf '%s\n' "$task_date" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
@@ -121,7 +122,46 @@ mv "$legacy_dated_dir/plan.md.tmp" "$legacy_dated_dir/plan.md"
 legacy_task_dir=".ai/tasks/2026-08-26-legacy-validation"
 cp -R "$task_dir" "$legacy_task_dir"
 ./.ai/scripts/ai-task-check.sh "$legacy_task_dir"
+legacy_timed_dir=".ai/tasks/2026-08-27/123456-legacy-validation"
+mkdir -p "$(dirname "$legacy_timed_dir")"
+cp -R "$task_dir" "$legacy_timed_dir"
+./.ai/scripts/ai-task-check.sh "$legacy_timed_dir"
 ./.ai/scripts/ai-task-check.sh --all
+
+# The default creates one record; completion gates must reject missing evidence.
+./.ai/scripts/ai-task-start.sh compact-validation "Compact validation" ci >/dev/null
+compact_dir=$(find .ai/tasks -name '*-compact-validation' -type d | head -n 1)
+test "$(find "$compact_dir" -type f | wc -l | tr -d ' ')" = 1
+grep -Eq '^protocol_version: 5$' "$compact_dir/task.md"
+./.ai/scripts/ai-task-check.sh "$compact_dir"
+./.ai/scripts/ai-doc-sync.sh "$compact_dir"
+sed -e 's/status: DRAFT/status: DONE/' -e 's/approval: pending/approval: approved/' \
+  -e 's/{{[^}]*}}/fixture evidence/' "$compact_dir/task.md" > "$compact_dir/task.md.tmp"
+mv "$compact_dir/task.md.tmp" "$compact_dir/task.md"
+if ./.ai/scripts/ai-task-check.sh "$compact_dir" >/dev/null 2>&1; then
+  echo "Expected compact completion without test/review evidence to fail." >&2
+  exit 1
+fi
+sed 's/test_status: pending/test_status: passed/' \
+  "$compact_dir/task.md" > "$compact_dir/task.md.tmp"
+mv "$compact_dir/task.md.tmp" "$compact_dir/task.md"
+if ./.ai/scripts/ai-task-check.sh "$compact_dir" >/dev/null 2>&1; then
+  echo "Expected compact completion without review evidence to fail." >&2
+  exit 1
+fi
+sed 's/review_status: pending/review_status: passed/' "$compact_dir/task.md" > "$compact_dir/task.md.tmp"
+mv "$compact_dir/task.md.tmp" "$compact_dir/task.md"
+AI_PROTOCOL_STRICT=1 ./.ai/scripts/ai-task-check.sh "$compact_dir"
+sed 's/approval: approved/approval: pending/' "$compact_dir/task.md" > "$compact_dir/task.md.tmp"
+mv "$compact_dir/task.md.tmp" "$compact_dir/task.md"
+if ./.ai/scripts/ai-task-check.sh --all >/dev/null 2>&1; then
+  echo "Expected --all to find and reject an unapproved nested compact task." >&2
+  exit 1
+fi
+if CC_FLOW_TASK_MODE=invalid ./.ai/scripts/ai-task-start.sh invalid-mode invalid >/dev/null 2>&1; then
+  echo "Expected invalid task mode to be rejected." >&2
+  exit 1
+fi
 
 mkdir -p "$qa_root/user-scripts/repository/scripts"
 printf '%s\n' '# user-owned script' > "$qa_root/user-scripts/repository/scripts/ai-task-start.sh"

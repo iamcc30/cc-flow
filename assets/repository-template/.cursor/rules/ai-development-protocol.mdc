@@ -5,7 +5,7 @@ alwaysApply: true
 
 # AI Development Protocol
 
-Apply this protocol when the request may modify software code, behavior, tests, technical configuration, schemas, dependencies, build or deployment configuration, or CC Flow itself. Before editing, read `AGENTS.md`, `.ai/project.md`, `.ai/profile.md`, `.ai/architecture.md`, `.ai/business.md`, `.ai/conventions.md`, and `.ai/progress.md`.
+Apply this protocol when the request may modify software code, behavior, tests, technical configuration, schemas, dependencies, build or deployment configuration, or CC Flow itself. Follow AGENTS.md and .ai/conventions.md; read other context only when relevant. Light needs no record, Compact one task.md, Full separate stage records.
 
 For read-only questions, explanations, exploration, research, reports, summaries, status checks, or standalone document creation, do not create or update CC Flow records unless explicitly requested.
 

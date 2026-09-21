@@ -2,7 +2,7 @@
 set -eu
 
 usage() {
-  echo "Usage: $0 .ai/tasks/<YYYY-MM-DD>/<HHMMSS-slug>" >&2
+  echo "Usage: $0 .ai/tasks/<YYYY>/<MM>/<DD>/<HHMMSS-slug>" >&2
   exit 2
 }
 
@@ -20,6 +20,12 @@ esac
   echo "Error: task directory not found: $1" >&2
   exit 1
 }
+
+if grep -Eq '^protocol_version:[[:space:]]*5$' "$task_dir/task.md"; then
+  "$script_dir/ai-task-check.sh" "$task_dir"
+  echo "Compact mode: update only changed durable facts; no per-document checklist required."
+  exit 0
+fi
 
 result="$task_dir/result.md"
 plan="$task_dir/plan.md"

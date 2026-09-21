@@ -92,6 +92,51 @@ require_heading() {
   grep -Fqx "$rh_heading" "$rh_file" || error "$rh_label is missing heading: $rh_heading"
 }
 
+check_compact() {
+  compact_file=$1
+  compact_label=$2
+  [ "$(field_value workflow_mode "$compact_file")" = compact ] || error "$compact_label invalid workflow_mode"
+  compact_status=$(field_value status "$compact_file")
+  compact_approval=$(field_value approval "$compact_file")
+  case "$compact_status" in
+    DRAFT|PLANNED|APPROVED|IMPLEMENTING|TESTING|VERIFIED|DONE|CANCELLED) ;;
+    *) error "$compact_label invalid status" ;;
+  esac
+  case "$compact_approval" in
+    pending|approved|not_required) ;;
+    *) error "$compact_label invalid approval" ;;
+  esac
+  case "$(field_value delivery_level "$compact_file")" in
+    prototype|standard|enterprise) ;;
+    *) error "$compact_label invalid delivery_level" ;;
+  esac
+  case "$(field_value architecture_style "$compact_file")" in
+    existing|layered|clean|hexagonal|ddd) ;;
+    *) error "$compact_label invalid architecture_style" ;;
+  esac
+  for heading in "## 目标与验收" "## 方案与依据" "## 验证与结果"; do
+    require_heading "$heading" "$compact_file" "$compact_label"
+  done
+  case "$compact_status" in
+    APPROVED|IMPLEMENTING|TESTING|VERIFIED|DONE)
+      [ "$compact_approval" = approved ] || [ "$compact_approval" = not_required ] || error "$compact_label approval required"
+      ;;
+  esac
+  case "$compact_status" in
+    VERIFIED|DONE)
+      [ "$(field_value test_status "$compact_file")" = passed ] || error "$compact_label tests have not passed"
+      ;;
+  esac
+  if [ "$compact_status" = DONE ]; then
+    [ "$(field_value review_status "$compact_file")" = passed ] || error "$compact_label review has not passed"
+    if grep -Eq '\{\{[^}]+\}\}|^- \[ \]' "$compact_file"; then
+      error "$compact_label has unfinished content"
+    fi
+  elif grep -q '{{' "$compact_file"; then
+    warn "$compact_label still contains template placeholders (allowed before DONE)"
+  fi
+}
+
 check_task() {
   input=$1
   case "$input" in
@@ -106,6 +151,11 @@ check_task() {
 
   label=${task_dir#"$repo_root/"}
   echo "Checking $label"
+
+  if [ -s "$task_dir/task.md" ] && [ "$(field_value protocol_version "$task_dir/task.md")" = "5" ]; then
+    check_compact "$task_dir/task.md" "$label"
+    return
+  fi
 
   for file in task.md plan.md result.md review.md; do
     [ -s "$task_dir/$file" ] || error "$label/$file is missing or empty"
@@ -220,7 +270,7 @@ usage() {
   echo "Usage:" >&2
   echo "  $0 --project" >&2
   echo "  $0 --all" >&2
-  echo "  $0 .ai/tasks/<YYYY-MM-DD>/<HHMMSS-slug>" >&2
+  echo "  $0 .ai/tasks/<YYYY>/<MM>/<DD>/<HHMMSS-slug>" >&2
   exit 2
 }
 
@@ -233,6 +283,11 @@ case "$1" in
   --all)
     check_project
     found=0
+    for task_dir in "$repo_root"/.ai/tasks/[0-9][0-9][0-9][0-9]/[0-9][0-9]/[0-9][0-9]/*; do
+      [ -d "$task_dir" ] || continue
+      found=1
+      check_task "$task_dir"
+    done
     # Legacy CC Flow releases stored tasks directly under .ai/tasks/.
     for task_dir in "$repo_root"/.ai/tasks/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*; do
       [ -d "$task_dir" ] || continue

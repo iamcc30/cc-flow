@@ -14,20 +14,13 @@ Routine merge/rebase/cherry-pick operations, tagging or release execution, and r
 
 Before development, fetch relevant remote refs and check both upstream and the intended integration branch. Safely synchronize a clean behind branch; preserve dirty/diverged work. Record the baseline in the plan and disclose failed fetches or stale targets before editing.
 
-For work in scope above, before planning or editing, read:
-
-1. `.ai/workspace.yaml`, when present
-2. `.ai/project.md`
-3. `.ai/profile.md`
-4. `.ai/architecture.md`
-5. `.ai/business.md`
-6. `.ai/conventions.md`
-7. `.ai/progress.md`
-8. The active task under `.ai/tasks/`, when one exists
+Read applicable rules and relevant code/tests. Load project context only when needed, reuse unchanged context already loaded, and do not preload every file, stage prompt or historical task.
 
 ## Required workflow
 
 For work in scope above, follow `.ai/conventions.md` as the source of truth.
+
+Choose effort by risk, not file count: Light needs no task directory; ordinary features use one compact task.md; complex, cross-repository or high-risk work uses Full. Separate plan/test/result/review files and stage prompts apply only to Full. Do not initialize the overlay merely for a small change.
 
 - Keep changes within the task scope.
 - Important decisions need concrete evidence and a smallest-change alternative; speculative future needs do not justify complexity. Requirements, plans and test evidence each have one source; reference instead of copying. Read only the active task and relevant project context, not all historical tasks.

@@ -32,6 +32,8 @@ Ask only a consolidated set of unresolved questions that materially change scope
 
 ## 3. Create linked tasks
 
+Only enter this multi-repository Full procedure when several repositories actually need coordinated changes. A local change in a configured workspace still uses Light or Compact. Set CC_FLOW_TASK_MODE=full for the commands below.
+
 Create one parent task in the coordinator repository and one child task in each affected code repository. Use the same concise slug stem and title vocabulary. Create tasks with repository-local scripts; set linkage metadata through environment variables:
 
 ```bash
