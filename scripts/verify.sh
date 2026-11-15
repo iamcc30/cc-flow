@@ -44,13 +44,12 @@ grep -Fq 'do not create or update CC Flow task records' "$skill_root/assets/repo
 grep -Fq 'do not create or update CC Flow records' "$skill_root/assets/repository-template/.cursor/rules/ai-development-protocol.mdc"
 grep -Fq 'do not create or update CC Flow records' "$skill_root/assets/repository-template/.github/copilot-instructions.md"
 
-sh -n "$skill_root/scripts/init-project.sh" \
-  "$skill_root/scripts/init-workspace.sh" \
-  "$skill_root/assets/repository-template/.ai/scripts/ai-task-start.sh" \
-  "$skill_root/assets/repository-template/.ai/scripts/ai-task-check.sh" \
-  "$skill_root/assets/repository-template/.ai/scripts/ai-doc-sync.sh"
+for shell_file in "$skill_root"/scripts/*.sh "$skill_root"/assets/repository-template/.ai/scripts/*.sh; do
+  sh -n "$shell_file"
+done
 
 qa_root=$(mktemp -d)
+trap 'rm -rf "$qa_root"' 0
 mkdir -p "$qa_root/repository"
 "$skill_root/scripts/init-project.sh" "$qa_root/repository" >/dev/null
 "$skill_root/scripts/init-workspace.sh" "$qa_root/repository" >/dev/null
@@ -64,6 +63,7 @@ test -x "$qa_root/repository/.ai/scripts/ai-task-start.sh"
 test -x "$qa_root/repository/.ai/scripts/ai-task-check.sh"
 test -x "$qa_root/repository/.ai/scripts/ai-doc-sync.sh"
 test ! -e "$qa_root/repository/scripts/ai-task-start.sh"
+grep -Fq 'AI_PROTOCOL_STRICT=1 ./.ai/scripts/ai-task-check.sh --all' "$qa_root/repository/.github/workflows/ai-protocol.yml"
 grep -Eq '^workspace_version:[[:space:]]*1$' "$qa_root/repository/.ai/workspace.yaml"
 if "$skill_root/scripts/init-workspace.sh" "$qa_root/repository" >/dev/null 2>&1; then
   echo "Expected workspace initializer to refuse an existing configuration." >&2
@@ -90,6 +90,30 @@ grep -Eq '^architecture_style:[[:space:]]*"existing"$' "$task_dir/task.md"
 grep -Eq '^parent_task:[[:space:]]*"workspace-parent"$' "$task_dir/task.md"
 grep -Eq '^repository_role:[[:space:]]*"backend"$' "$task_dir/task.md"
 ./.ai/scripts/ai-task-check.sh "$task_dir"
+
+# Full accepts concise sync evidence and old completed checklists, never blanks.
+doc_sync_dir="$qa_root/doc-sync"
+mkdir -p "$doc_sync_dir"
+cp "$task_dir/task.md" "$task_dir/plan.md" "$doc_sync_dir/"
+for summary in \
+  '无需更新：仅修复内部实现，项目事实和使用方式未变化。' \
+  '- [README](../../README.md)：修正测试命令。' \
+  '- [x] `.ai/progress.md`：NOT_NEEDED — 当前里程碑未变化'; do
+  printf '## 文档同步\n\n%s\n\n## 已知限制与后续事项\n无\n' "$summary" > "$doc_sync_dir/result.md"
+  ./.ai/scripts/ai-doc-sync.sh "$doc_sync_dir"
+done
+for summary in '' '{{UPDATED_DOCS}}' '- [ ] README：待核实'; do
+  printf '## 文档同步\n\n%s\n\n## 已知限制与后续事项\n不能充当同步证据\n' "$summary" > "$doc_sync_dir/result.md"
+  if ./.ai/scripts/ai-doc-sync.sh "$doc_sync_dir" >/dev/null 2>&1; then
+    echo "Expected incomplete document sync evidence to fail." >&2
+    exit 1
+  fi
+done
+printf '## 实际修改\n仅有实现摘要\n' > "$doc_sync_dir/result.md"
+if ./.ai/scripts/ai-doc-sync.sh "$doc_sync_dir" >/dev/null 2>&1; then
+  echo "Expected a missing document sync section to fail." >&2
+  exit 1
+fi
 
 invalid_v4_dir="$qa_root/invalid-v4-task"
 cp -R "$task_dir" "$invalid_v4_dir"
@@ -135,6 +159,31 @@ test "$(find "$compact_dir" -type f | wc -l | tr -d ' ')" = 1
 grep -Eq '^protocol_version: 5$' "$compact_dir/task.md"
 ./.ai/scripts/ai-task-check.sh "$compact_dir"
 ./.ai/scripts/ai-doc-sync.sh "$compact_dir"
+
+# Check both modes, including nested paths with spaces, without deleting evidence.
+for checked_task in "$task_dir" "$compact_dir"; do
+  mkdir "$checked_task/nested evidence"
+  printf 'Short supporting note.\n' > "$checked_task/nested evidence/note.md"
+  ./.ai/scripts/ai-task-check.sh "$checked_task" >/dev/null
+  for misplaced_name in regression.py fixture.json run.log screenshot.png build.zip; do
+    misplaced_path="$checked_task/nested evidence/$misplaced_name"
+    printf 'fixture\n' > "$misplaced_path"
+    if ./.ai/scripts/ai-task-check.sh "$checked_task" > "$qa_root/misplaced.log" 2>&1; then
+      echo "Expected misplaced task file to fail: $misplaced_path" >&2
+      exit 1
+    fi
+    grep -Fq 'contains non-Markdown files' "$qa_root/misplaced.log"
+    test -f "$misplaced_path"
+    rm "$misplaced_path"
+  done
+  rm "$checked_task/nested evidence/note.md"
+  rmdir "$checked_task/nested evidence"
+done
+# A targeted check does not sweep unrelated historical tasks.
+printf 'fixture\n' > "$task_dir/old.log"
+./.ai/scripts/ai-task-check.sh "$compact_dir" >/dev/null
+rm "$task_dir/old.log"
+
 sed -e 's/status: DRAFT/status: DONE/' -e 's/approval: pending/approval: approved/' \
   -e 's/{{[^}]*}}/fixture evidence/' "$compact_dir/task.md" > "$compact_dir/task.md.tmp"
 mv "$compact_dir/task.md.tmp" "$compact_dir/task.md"

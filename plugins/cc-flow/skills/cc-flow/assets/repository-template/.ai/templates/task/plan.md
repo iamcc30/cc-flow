@@ -24,6 +24,7 @@ delivery_level: `{{DELIVERY_LEVEL}}`；architecture_style: `{{ARCHITECTURE_STYLE
 ## 复用与依赖评估
 
 {{REUSE_PATH_AND_REASON}}
+注明已有入口、参考实现、复用内容和新增理由；替换时列出调用方及测试/夹具/配置/导出影响，说明迁移清理或必要并存的原因、负责人和退出条件。
 仅在新增依赖时补充来源、兼容、安全、许可和维护成本；无需逐项列出所有未采用选项。
 
 ## 修改范围

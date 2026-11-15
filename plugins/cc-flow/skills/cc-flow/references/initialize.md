@@ -34,13 +34,15 @@ Current task creation uses `.ai/tasks/YYYY/MM/DD/HHMMSS-<slug>/`. Do not automat
 
 Refresh entry files and conventions together: remove unconditional context preloads, file-count grading and mandatory five-document requirements for ordinary tasks. Light has no task record; Compact uses protocol v5 task.md only; Full and existing tasks retain v1–v4 support. Install the compact template and updated scripts without rewriting historical tasks. Read prompts only for the selected mode. Preserve stricter project-specific gates and surface any conflict.
 
-On refresh, merge the baseline, evidence, and concise-document rules into existing entry files and conventions. Preserve historical tasks and their protocol versions. Replace stale project facts rather than append an upgrade diary. Offer archival only when requested; do not delete history or change task links silently.
+On refresh, merge the baseline, evidence, concise-document and reuse/default-entry/retirement rules into existing entry files, conventions and applicable templates/prompts. Preserve historical tasks and their protocol versions. Replace stale project facts rather than append an upgrade diary. Offer archival only when requested; do not delete history or change task links silently.
+
+Also merge documentation freshness and `.ai/` storage boundaries: product tests and generated artifacts belong outside `.ai/`; current facts must be checked against code rather than copied from historical tasks. Update the Full result template and document-sync helper together to use a concise change summary, and ensure CI invokes `.ai/scripts/`. Report misplaced historical files without automatically moving or deleting them; a targeted task check must not scan unrelated history. An explicit `--all` check (including the bundled CI) also rejects non-Markdown files in historical tasks; disclose these before enabling it in an existing project.
 
 Read the installed `AGENTS.md` and `.ai/conventions.md`. Fill project files from observable evidence:
 
 - `.ai/profile.md`: keep `standard + existing` by default. Recommend another delivery level or architecture style only when project evidence justifies it; obtain confirmation before changing the fields.
 - `.ai/project.md`: purpose, users, scope, constraints, and links.
-- `.ai/architecture.md`: modules, dependency directions, storage, external systems, quality attributes, and real commands.
+- `.ai/architecture.md`: modules, dependency directions, storage, external systems, quality attributes, and real commands. Use the existing module table for relevant shared capabilities' default entry points, code examples and known maintainers; verify these in code, mark unknowns, and do not create a separate exhaustive catalog.
 - `.ai/business.md`: only business terminology, rules, roles, states, and flows supported by code, tests, docs, or the user.
 - `.ai/progress.md`: current phase, completed capabilities, active work, risks, and next actions.
 - `.ai/conventions.md`: actual format, lint, typecheck, test, build, and integration commands; use `N/A` when genuinely inapplicable.

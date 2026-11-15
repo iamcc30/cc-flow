@@ -1,9 +1,9 @@
 # 任务记录
 
-每个标准或高风险任务使用独立目录，并按创建日期和时间归档：
+Light 不建任务目录；Compact 只有 task.md，Full 使用 task/plan/result/test/review 五份 Markdown 记录。任务按创建年月日和时间存放：
 
 ```text
-YYYY-MM-DD/
+YYYY/MM/DD/
 └── HHMMSS-short-slug/
 ```
 
@@ -13,7 +13,9 @@ YYYY-MM-DD/
 ./.ai/scripts/ai-task-start.sh short-slug "任务标题"
 ```
 
-脚本会把 `.ai/profile.md` 当前的 `delivery_level` 和 `architecture_style` 写入 `task.md` 和 `plan.md`，作为任务配置快照。后续项目配置变化不会悄悄改变已有任务的完成标准。
+默认创建 Compact；Full 在同一命令前设置 `CC_FLOW_TASK_MODE=full`。脚本会把 `.ai/profile.md` 当前的配置写入任务，作为完成标准的快照。后续项目配置变化不会悄悄改变已有任务的完成标准。
+
+这里只保存简短 Markdown 记录，不放测试源码、夹具、日志、截图、压缩包或缓存。测试代码回项目既有测试目录，生成物放 .ai 外的既有制品位置；记录结果摘要和链接。不要另建重复总结或靠改后缀、粘贴输出绕过边界。历史任务反映当时基线，不代表当前行为；归档或清理须明确要求，并保留 ID 与引用。
 
 `HHMMSS` 是任务创建时的本地时间，用于让同一天的任务按创建顺序自然排列，不表示优先级或依赖关系。任务 ID 为 `YYYY-MM-DD-HHMMSS-short-slug`，可作为稳定的跨仓库父子任务引用。
 
@@ -29,7 +31,7 @@ DRAFT → PLANNED → APPROVED → IMPLEMENTING → TESTING → VERIFIED → DON
 - `PLANNED`：调查和计划完成，尚未授权实现。
 - `APPROVED`：计划已批准，或按协议标记为无需单独批准。
 - `IMPLEMENTING`：正在修改。
-- `TESTING`：实现完成，正在执行独立测试并记录 `test.md`。
+- `TESTING`：实现完成，正在验证；Compact 记在 task.md，Full 记在 test.md。
 - `VERIFIED`：必要测试已通过，等待评审/文档收尾。
 - `DONE`：满足 `.ai/conventions.md` 的完成定义。
 

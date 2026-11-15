@@ -38,6 +38,8 @@ Read the required project context, `.ai/profile.md`, and the new task. Use `.ai/
 
 Before proposing new code, record the reuse search in this order: suitable project implementations and patterns; standard-library or framework capabilities; already-declared dependencies; mature third-party libraries; custom implementation. Reuse only when semantics and boundaries fit. For a new dependency, explain why existing options are insufficient and assess compatibility, maintenance, security, license, size/runtime or operational cost, and testability using current authoritative evidence. Do not add a dependency for trivial behavior when a small local implementation is clearer and cheaper.
 
+In the existing reuse assessment, name the default entry point, reference implementation and affected callers; justify departures from the project pattern. For replacements, include migration/cleanup or the reason, owner and exit condition for necessary coexistence, following `.ai/conventions.md`. Do not add a governance document or approval stage.
+
 Default to `single`. Choose `parallel` only when at least two bounded workstreams have independent deliverables, clear dependencies, and disjoint write scopes, and delegation materially improves speed or quality. Use `coordinated` when workstreams exist but must be serialized. When subagents are available, prefer them for independent exploration, testing, and review. Do not create durable child task directories merely to mirror temporary agents.
 
 Set status to `PLANNED`. For a standard task, continue only when approval is `approved`, or when explicit authorization makes `not_required` valid under the repository rules. High-risk tasks always require human approval.
@@ -60,11 +62,13 @@ Use `.ai/prompts/review.md`. Review the actual diff and `test.md` against the ta
 
 Record actionable findings in `review.md`. `BLOCKER` and `HIGH` findings must be resolved and rechecked before `review_status: passed`. Mark the task `DONE` only when the repository's definition of done is satisfied.
 
+Also withhold approval for unexplained duplication, bypassed default entry points, or replacement paths without migration/retirement arrangements. Check affected existing callers against the test evidence, not only the new feature.
+
 Routine branch integration, tagging/release, and deployment of an existing reviewed artifact through an established runbook happen outside CC Flow after the development task is done; do not reopen or create a task merely to record them. They remain subject to normal permissions and production authorization. If merge conflicts or deployment failures require semantic code/configuration changes, return to an active task or create a new task before editing.
 
 ## Validate
 
-Keep documentation bounded: aim for one screen of project progress and one page per task document; these are editing targets, not reasons to omit critical evidence. Replace outdated project facts rather than append task diaries. Full logs belong in CI/artifacts, linked from test.md. Optional sections may be removed; required headings may contain a concise N/A reason. Archive completed tasks only when requested, preserve IDs/links, and exclude archives from routine reads. Do not scan all history to answer an active task question.
+Keep documentation bounded: aim for one screen of project progress and one page per task document; these are editing targets, not reasons to omit critical evidence. Check affected facts against current code/configuration/tests and replace stale statements rather than append task diaries. In result.md's document-sync section, list only changed docs and facts, or one reason no update was needed; do not require a progress edit or a per-document no-change checklist. Full logs, screenshots and builds belong outside `.ai/` in existing artifact storage, linked from test.md with temporary evidence identified; product tests and fixtures belong in the project's test locations. Task directories contain Markdown evidence only. Optional sections may be removed; required headings may contain a concise N/A reason. Archive completed tasks only when requested, preserve IDs/links, and exclude archives from routine reads. Do not scan all history to answer an active task question.
 
 For an active task:
 

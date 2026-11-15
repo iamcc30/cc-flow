@@ -23,9 +23,11 @@
 
 ## 模块与职责
 
-| 模块/目录 | 职责 | 对外接口 | 允许依赖 |
-|---|---|---|---|
-| `{{MODULE}}` | `{{RESPONSIBILITY}}` | `{{INTERFACE}}` | `{{DEPENDENCIES}}` |
+公共能力在此标明默认入口及可照着写的代码路径；以当前代码为准，只维护相关稳定能力，不另建清单。维护人未知时如实注明。
+
+| 模块/目录 | 职责 | 对外接口 / 默认入口与参考实现 | 允许依赖 | 维护人 |
+|---|---|---|---|---|
+| `{{MODULE}}` | `{{RESPONSIBILITY}}` | `{{INTERFACE_AND_REFERENCE_PATH}}` | `{{DEPENDENCIES}}` | `{{OWNER_OR_UNKNOWN}}` |
 
 ## 依赖规则
 

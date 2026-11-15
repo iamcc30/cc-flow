@@ -27,6 +27,7 @@ Choose effort by risk, not file count: Light needs no task directory; ordinary f
 - When `.ai/workspace.yaml` applies, coordinate through its parent task but keep implementation evidence in the owning repository.
 - For non-simple tasks, create or complete the task plan before editing code.
 - Before adding code or dependencies, prefer suitable project implementations, platform/framework capabilities, existing dependencies, and mature third-party libraries in that order; do not force reuse when semantics or boundaries differ.
+- When adding or replacing an implementation in any mode, identify the existing entry point, reference implementation and affected callers; justify any new approach and close out replaced paths under `.ai/conventions.md`. Keep the evidence in the existing plan or Light summary, without extra documents or approval stages.
 - Do not claim tests passed unless they were actually run; record exact commands and outcomes.
 - Do not overwrite unrelated user changes.
 - Update project documentation when business behavior, architecture, interfaces, operations, or progress changes.

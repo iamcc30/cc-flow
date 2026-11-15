@@ -15,5 +15,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check project context and task records
         run: |
-          chmod +x scripts/ai-task-check.sh scripts/ai-doc-sync.sh
-          AI_PROTOCOL_STRICT=1 ./scripts/ai-task-check.sh --all
+          chmod +x .ai/scripts/ai-task-check.sh .ai/scripts/ai-doc-sync.sh
+          AI_PROTOCOL_STRICT=1 ./.ai/scripts/ai-task-check.sh --all

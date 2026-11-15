@@ -152,6 +152,12 @@ check_task() {
   label=${task_dir#"$repo_root/"}
   echo "Checking $label"
 
+  misplaced=$(find "$task_dir" \( -type f -o -type l \) ! -name '*.md' -print)
+  if [ -n "$misplaced" ]; then
+    error "$label contains non-Markdown files; keep product tests and generated artifacts outside task records:
+$misplaced"
+  fi
+
   if [ -s "$task_dir/task.md" ] && [ "$(field_value protocol_version "$task_dir/task.md")" = "5" ]; then
     check_compact "$task_dir/task.md" "$label"
     return

@@ -14,12 +14,7 @@
 
 ## 文档同步
 
-- [ ] `.ai/project.md`：`{{UPDATED_OR_NOT_NEEDED_WITH_REASON}}`
-- [ ] `.ai/architecture.md`：`{{UPDATED_OR_NOT_NEEDED_WITH_REASON}}`
-- [ ] `.ai/business.md`：`{{UPDATED_OR_NOT_NEEDED_WITH_REASON}}`
-- [ ] `.ai/decisions.md`：`{{UPDATED_OR_NOT_NEEDED_WITH_REASON}}`
-- [ ] `.ai/progress.md`：`{{UPDATED}}`
-- [ ] README/API/运维文档：`{{UPDATED_OR_NOT_NEEDED_WITH_REASON}}`
+{{UPDATED_DOC_LINKS_AND_CHANGED_FACTS_OR_NO_CHANGE_REASON}}
 
 ## 已知限制与后续事项
 
