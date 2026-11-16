@@ -1,6 +1,6 @@
 ---
 name: cc-flow
-description: Turn requested software changes into an auditable Understand/Plan/Implement/Test/Review workflow. Use when implementing or modifying features, fixing bugs, refactoring or optimizing code, changing tests/configuration/schemas/dependencies/build or deployment configuration, continuing an active CC Flow task, or initializing/refreshing CC Flow across repositories. Do not use for read-only work, standalone documents, routine Git integration, release/tagging, or routine deployment execution unless explicitly invoked or code/configuration changes are required.
+description: Turn requested software changes into an auditable Understand/Plan/Implement/Test/Review workflow. Use when implementing or modifying features, fixing bugs, refactoring or optimizing code, changing tests/configuration/schemas/dependencies/build or deployment configuration, continuing an active CC Flow task, or initializing/refreshing CC Flow across repositories, including “升级当前项目的 cc-flow”. Do not use for read-only work, standalone documents, routine Git integration, release/tagging, or routine deployment execution unless explicitly invoked or code/configuration changes are required.
 ---
 
 # CC Flow
@@ -34,7 +34,7 @@ Clarify only material unknowns. Record the smallest viable plan with concrete ev
 
 Update durable docs only when facts changed, never solely to record activity. Keep logs in artifacts, use links/short failure excerpts. Default to one agent; no extra agent merely to satisfy a stage. If complexity or risk increases, switch to Full before risky edits, preserve the ID and existing evidence, add needed full templates and use protocol v4; do not create a duplicate task.
 
-- **Initialize or refresh a repository:** Read [references/initialize.md](references/initialize.md).
+- **Initialize or refresh a repository:** Read [references/initialize.md](references/initialize.md). “升级当前项目的 cc-flow” means merge the installed skill's current workflow into the current repository, preserving configuration, local rules and history, without extra backups. This is sufficient authorization for that refresh; do not ask the user to restate these defaults. Updating the installed skill itself is a separate request.
 - **Initialize or operate a multi-repository workspace, or route a brief feature request across repositories:** Read [references/workspace-workflow.md](references/workspace-workflow.md).
 - **Full task only:** Read [references/task-workflow.md](references/task-workflow.md). Its multi-file requirements do not apply to Light or Compact.
 

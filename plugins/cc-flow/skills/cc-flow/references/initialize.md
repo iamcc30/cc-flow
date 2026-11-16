@@ -2,7 +2,15 @@
 
 Use this procedure when setting up the workflow, filling `{{...}}` context fields, or updating an existing installation.
 
-If one product spans multiple repositories, initialize each repository locally first, then read [workspace-workflow.md](workspace-workflow.md) and create the workspace configuration in the chosen coordinator repository.
+For “升级当前项目的 cc-flow” (or an equivalent project refresh request), use the current repository and the installed skill's bundled resources. The request authorizes the following defaults without a separate confirmation:
+
+- Merge workflow rules, templates, prompts and helpers in place; preserve project configuration (including profile/workspace), business facts, local commands, custom rules and unrelated changes. Existing profile values must not be reset to the defaults for new projects.
+- Preserve all historical task contents, IDs, paths and links. Do not migrate, archive, rewrite or delete them, or generate an upgrade diary/task merely to record a routine refresh.
+- Do not create backup directories, `.bak` copies or archives unless requested. Do not force-overwrite customized files; resolve clear differences by merging, and ask only about conflicts that cannot be safely resolved from the project evidence.
+- Update only the AI entry points and CI integrations the project actually uses. Keep project-specific checks; do not install unused integrations. Apply the lightweight modes, reuse governance and documentation/storage rules described below through those existing entry points.
+- Validate the changed workflow and report changed files, results and unresolved issues. Report historical clutter without moving or deleting it. Do not change product code or update the globally installed skill as part of this project refresh.
+
+For explicitly requested multi-repository initialization, initialize the repositories in scope, then follow [workspace-workflow.md](workspace-workflow.md) in the chosen coordinator repository. A current-project refresh stays in that repository, even when a workspace configuration exists; do not expand to sibling repositories unless requested.
 
 ## 1. Resolve and inspect the target
 
@@ -16,7 +24,7 @@ If the target is ambiguous and choosing incorrectly could modify a different rep
 
 ## 2. Install the overlay
 
-Run the skill's initializer with the resolved repository root:
+For a new installation only, run the skill's initializer with the resolved repository root. Existing installations skip this command and use the merge procedure below:
 
 ```bash
 <skill-directory>/scripts/init-project.sh <repository-root>
@@ -40,7 +48,7 @@ Also merge documentation freshness and `.ai/` storage boundaries: product tests 
 
 Read the installed `AGENTS.md` and `.ai/conventions.md`. Fill project files from observable evidence:
 
-- `.ai/profile.md`: keep `standard + existing` by default. Recommend another delivery level or architecture style only when project evidence justifies it; obtain confirmation before changing the fields.
+- `.ai/profile.md`: preserve existing values on refresh; use `standard + existing` only for a new profile. Recommend another delivery level or architecture style only when project evidence justifies it; obtain confirmation before changing the fields.
 - `.ai/project.md`: purpose, users, scope, constraints, and links.
 - `.ai/architecture.md`: modules, dependency directions, storage, external systems, quality attributes, and real commands. Use the existing module table for relevant shared capabilities' default entry points, code examples and known maintainers; verify these in code, mark unknowns, and do not create a separate exhaustive catalog.
 - `.ai/business.md`: only business terminology, rules, roles, states, and flows supported by code, tests, docs, or the user.
@@ -71,4 +79,4 @@ Run:
 AI_PROTOCOL_STRICT=1 ./.ai/scripts/ai-task-check.sh --project
 ```
 
-Use the first command while drafting. Strict mode should pass before declaring initialization complete. Report installed files, inferred facts, user-supplied decisions, validation outcome, and any remaining unknowns.
+Use the first command while drafting. Strict mode should pass before declaring initialization complete. On refresh, distinguish pre-existing placeholder/context failures from new regressions; report them without inventing facts or rewriting unrelated documents to silence the checker. Check changed shell scripts with `sh -n`; when task helpers or templates changed, exercise task creation/checking in an isolated temporary directory outside the project and remove it afterward. Do not create dummy tasks in the real history. Check an existing active task only if affected, not all historical tasks. Report installed/merged files, validation outcome and remaining issues; do not claim a failed check passed.
